@@ -29,14 +29,11 @@ window.SITE_CONFIG = {
      While these two values are empty the site still works: everything is
      kept in the visitor's own browser so you can test the whole flow.
      ---------------------------------------------------------------------- */
-  /* TODO: paste your OWN project values here.
-     supabase.com -> New project -> Project Settings -> API
-       Project URL     -> supabaseUrl
-       publishable key -> supabaseAnonKey   (NOT the secret key)
-     Left empty, the site falls back to browser-only storage so you can test
-     the whole flow before the backend exists. */
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  /* Your own Supabase project.
+     The publishable key is designed to be public — the safety comes from the
+     row level security rules in supabase/schema.sql, not from hiding it. */
+  supabaseUrl: 'https://wlbokudjkiwujaicrtzf.supabase.co',
+  supabaseAnonKey: 'sb_publishable_yiKXE5J7xk1rwZ-t7xZovw_nSbcy9A7',
 
   /* ----------------------------------------------------------------------
      2) OPTIONAL EXTRAS
