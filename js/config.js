@@ -46,11 +46,10 @@ window.SITE_CONFIG = {
   musicAudioSrc: '',
   musicVideoId: '',
 
-  /* Admin page fallback password.
-     This is ONLY used while Supabase is not connected, so the admin page
-     can still be opened on a static host. Change it, and once Supabase is
-     connected this value is ignored and a real Supabase account is used. */
-  localAdminPasscode: 'wm4524!42',
+  /* Admin fallback passcode. Left empty on purpose: the admin page is served
+     by a real Supabase account, so this local-only shortcut is never needed
+     and there is no reason to publish a password in the repository. */
+  localAdminPasscode: '',
 
   /* ----------------------------------------------------------------------
      3) WEDDING DETAILS
