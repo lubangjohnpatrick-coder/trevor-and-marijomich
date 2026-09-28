@@ -21,25 +21,34 @@
 </style>
 </head>
 <body>
-<p>Taking you to the invitation…</p>
+<p>Taking you to the invitation&hellip;</p>
 <script>
-  /* GitHub Pages has no URL rewrites, so an invitation link such as
-     /trevor-and-marijomich/invite/abc123 is served this 404 page instead.
-     We pull the token out and forward to the invitation itself.
+  /* GitHub Pages has no URL rewrites, so a personal link such as
+     /trevorandmich.online/charleslawrencegozo is served this 404 page
+     instead of the site. The last path segment is the guest's token, so it
+     is forwarded to the real page as ?token=<slug> rather than discarded.
 
-     The path has to be rebuilt carefully. A relative "./" here would resolve
-     against /invite/ and land back on a 404, so the /invite/<token> segment
-     is stripped and the real site folder is kept. */
+     The site folder (everything before the final segment) is kept, because a
+     relative "./" would resolve against the missing directory and land here
+     again, looping forever. */
   (function () {
     var path = window.location.pathname;
-    var match = path.match(/^(.*)\/invite\/([^/]+)\/?$/);
 
-    if (match) {
-      window.location.replace(match[1] + '/?token=' + encodeURIComponent(match[2]));
+    /* /invite/<token> is the long form that admin.html prints. */
+    var long = path.match(/^(.*)\/invite\/([^/]+)\/?$/);
+    if (long) {
+      window.location.replace(long[1] + '/?token=' + encodeURIComponent(long[2]));
       return;
     }
 
-    /* not an invitation link - just send the visitor to the site root */
+    /* Anything else is a bare guest slug: /<token>. */
+    var bare = path.match(/^(.*)\/([^/]+)\/?$/);
+    if (bare && bare[2] && !/\.(?:html?|png|jpe?g|svg|webp|mp3|woff2?|css|js)$/i.test(bare[2])) {
+      window.location.replace(bare[1] + '/?token=' + encodeURIComponent(bare[2]));
+      return;
+    }
+
+    /* A real missing file, or the bare site root: just go to the home page. */
     window.location.replace(path.replace(/[^/]*$/, '') || '/');
   }());
 </script>

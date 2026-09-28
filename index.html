@@ -37,11 +37,11 @@
 
       <!-- The whole envelope is the button: clicking it opens the invitation -->
       <button class="welcome__envelope anim-in" style="--in-delay:400ms" type="button" data-open-invitation aria-label="Open the wedding invitation">
-        <img class="welcome__floral welcome__floral--trailing" src="assets/images/cover-trailing-flowers.png" alt="">
-        <img class="welcome__floral welcome__floral--bouquet" src="assets/images/cover-bouquet.png" alt="">
-        <img class="welcome__floral welcome__floral--horizontal" src="assets/images/cover-horizontal-flowers.png" alt="">
-        <img class="welcome__floral welcome__floral--flower" src="assets/images/cover-flower.png" alt="">
-        <img class="welcome__floral welcome__floral--bow" src="assets/images/cover-bow.png" alt="">
+        <picture><source srcset="assets/images/cover-trailing-flowers.webp" type="image/webp"><img class="welcome__floral welcome__floral--trailing" src="assets/images/cover-trailing-flowers.png" alt=""></picture>
+        <picture><source srcset="assets/images/cover-bouquet.webp" type="image/webp"><img class="welcome__floral welcome__floral--bouquet" src="assets/images/cover-bouquet.png" alt=""></picture>
+        <picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img class="welcome__floral welcome__floral--horizontal" src="assets/images/cover-horizontal-flowers.png" alt=""></picture>
+        <picture><source srcset="assets/images/cover-flower.webp" type="image/webp"><img class="welcome__floral welcome__floral--flower" src="assets/images/cover-flower.png" alt=""></picture>
+        <picture><source srcset="assets/images/cover-bow.webp" type="image/webp"><img class="welcome__floral welcome__floral--bow" src="assets/images/cover-bow.png" alt=""></picture>
 
         <span class="welcome__env" aria-hidden="true">
           <!-- the cream card that rises out once the flap is up -->
@@ -51,13 +51,13 @@
           </span>
 
           <!-- the body, with the flap area cut away so it can really open -->
-          <img class="welcome__env-face" src="assets/images/cover-envelope.png" alt="">
+          <picture><source srcset="assets/images/cover-envelope.webp" type="image/webp"><img class="welcome__env-face" src="assets/images/cover-envelope.png" alt=""></picture>
 
           <!-- the flap: the same artwork clipped to the closed triangle,
                hinged along the top edge so it swings up and back -->
           <span class="welcome__env-flap"></span>
 
-          <img class="welcome__seal" src="assets/images/cover-wax-seal.png" alt="">
+          <picture><source srcset="assets/images/cover-wax-seal.webp" type="image/webp"><img class="welcome__seal" src="assets/images/cover-wax-seal.png" alt=""></picture>
         </span>
       </button>
 
@@ -86,12 +86,12 @@
 
     <!-- ============================ STORY ============================ -->
     <section class="story framed-section" id="story" aria-labelledby="story-title">
-      <div class="section-ornament section-ornament--top"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-ornament section-ornament--bottom"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--top-left"><img src="assets/images/cover-trailing-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right"><img src="assets/images/cover-bouquet.png" alt=""></div>
-      <div class="section-flower section-flower--top-left-small"><img src="assets/images/cover-flower.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right-small"><img src="assets/images/cover-bow.png" alt=""></div>
+      <div class="section-ornament section-ornament--top"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-ornament section-ornament--bottom"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left"><picture><source srcset="assets/images/cover-trailing-flowers.webp" type="image/webp"><img src="assets/images/cover-trailing-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right"><picture><source srcset="assets/images/cover-bouquet.webp" type="image/webp"><img src="assets/images/cover-bouquet.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left-small"><picture><source srcset="assets/images/cover-flower.webp" type="image/webp"><img src="assets/images/cover-flower.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right-small"><picture><source srcset="assets/images/cover-bow.webp" type="image/webp"><img src="assets/images/cover-bow.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="story__frame" aria-hidden="true"></div>
 
       <div class="story__content">
@@ -159,13 +159,13 @@
         </p>
 
         <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back">
-          <img src="assets/images/venue.jpg" alt="Hacienda Solange Indang at EMV Flower Farm">
+          <picture><source srcset="assets/images/venue.webp" type="image/webp"><img src="assets/images/venue.jpg" alt="Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
           <figcaption>Dream it, we make it happen</figcaption>
         </figure>
 
         <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400">Maps</p>
         <a class="location__map" data-aos="zoom-out-up" data-aos-delay="500" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener" aria-label="Open the wedding location in Google Maps">
-          <img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy">
+          <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
         <a class="button button--outline" data-aos="zoom-in-up" data-aos-delay="650" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
@@ -176,12 +176,12 @@
 
     <!-- ============================ DETAILS ============================ -->
     <section class="details framed-section" id="details" aria-labelledby="details-title">
-      <div class="section-ornament section-ornament--top"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-ornament section-ornament--bottom"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--top-left"><img src="assets/images/cover-trailing-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right"><img src="assets/images/cover-bouquet.png" alt=""></div>
-      <div class="section-flower section-flower--top-left-small"><img src="assets/images/cover-flower.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right-small"><img src="assets/images/cover-bow.png" alt=""></div>
+      <div class="section-ornament section-ornament--top"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-ornament section-ornament--bottom"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left"><picture><source srcset="assets/images/cover-trailing-flowers.webp" type="image/webp"><img src="assets/images/cover-trailing-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right"><picture><source srcset="assets/images/cover-bouquet.webp" type="image/webp"><img src="assets/images/cover-bouquet.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left-small"><picture><source srcset="assets/images/cover-flower.webp" type="image/webp"><img src="assets/images/cover-flower.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right-small"><picture><source srcset="assets/images/cover-bow.webp" type="image/webp"><img src="assets/images/cover-bow.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="details__texture" aria-hidden="true"></div>
 
       <div class="details__content">
@@ -189,7 +189,7 @@
 
         <div class="detail-block" data-aos="zoom-out-up">
           <h3>Dresscode</h3>
-          <img class="detail-block__attire" src="assets/images/dresscode.png" alt="Suggested attire for the wedding">
+          <picture><source srcset="assets/images/dresscode.webp" type="image/webp"><img class="detail-block__attire" src="assets/images/dresscode.png" alt="Suggested attire for the wedding" loading="lazy" decoding="async"></picture>
           <div class="dress-grid">
             <p data-aos="fade-right" data-aos-delay="200"><strong>For Women</strong><br>Filipiniana</p>
             <p data-aos="fade-left" data-aos-delay="300"><strong>For Men:</strong><br>Barong Tagalog</p>
@@ -215,32 +215,32 @@
     <section class="gallery" id="gallery" aria-labelledby="gallery-title">
       <h2 id="gallery-title" class="sr-only">Our gallery</h2>
       <div class="gallery__grid">
-        <button class="gallery__item gallery__item--1" type="button" data-gallery-index="0" data-aos="zoom-out" data-aos-duration="900"><img src="assets/images/gallery-01.jpg" alt="Trevor and Marijomich gallery photo 1" loading="lazy"></button>
-        <button class="gallery__item gallery__item--2" type="button" data-gallery-index="1" data-aos="zoom-out" data-aos-delay="80" data-aos-duration="900"><img src="assets/images/gallery-02.jpg" alt="Trevor and Marijomich gallery photo 2" loading="lazy"></button>
-        <button class="gallery__item gallery__item--3" type="button" data-gallery-index="2" data-aos="zoom-in" data-aos-delay="160" data-aos-duration="900"><img src="assets/images/gallery-03.jpg" alt="Trevor and Marijomich gallery photo 3" loading="lazy"></button>
-        <button class="gallery__item gallery__item--4" type="button" data-gallery-index="3" data-aos="zoom-out" data-aos-delay="240" data-aos-duration="900"><img src="assets/images/gallery-04.jpg" alt="Trevor and Marijomich gallery photo 4" loading="lazy"></button>
-        <button class="gallery__item gallery__item--5" type="button" data-gallery-index="4" data-aos="zoom-in" data-aos-delay="320" data-aos-duration="900"><img src="assets/images/gallery-05.jpg" alt="Trevor and Marijomich gallery photo 5" loading="lazy"></button>
-        <button class="gallery__item gallery__item--6" type="button" data-gallery-index="5" data-aos="zoom-out" data-aos-delay="400" data-aos-duration="900"><img src="assets/images/gallery-06.jpg" alt="Trevor and Marijomich gallery photo 6" loading="lazy"></button>
-        <button class="gallery__item gallery__item--7" type="button" data-gallery-index="6" data-aos="zoom-in" data-aos-delay="480" data-aos-duration="900"><img src="assets/images/gallery-07.jpg" alt="Trevor and Marijomich gallery photo 7" loading="lazy"></button>
-        <button class="gallery__item gallery__item--8" type="button" data-gallery-index="7" data-aos="zoom-out" data-aos-delay="560" data-aos-duration="900"><img src="assets/images/gallery-08.jpg" alt="Trevor and Marijomich gallery photo 8" loading="lazy"></button>
-        <button class="gallery__item gallery__item--9" type="button" data-gallery-index="8" data-aos="zoom-in" data-aos-delay="640" data-aos-duration="900"><img src="assets/images/gallery-09.jpg" alt="Trevor and Marijomich gallery photo 9" loading="lazy"></button>
-        <button class="gallery__item gallery__item--10" type="button" data-gallery-index="9" data-aos="zoom-out" data-aos-delay="720" data-aos-duration="900"><img src="assets/images/gallery-10.jpg" alt="Trevor and Marijomich gallery photo 10" loading="lazy"></button>
-        <button class="gallery__item gallery__item--11" type="button" data-gallery-index="10" data-aos="zoom-in" data-aos-delay="800" data-aos-duration="900"><img src="assets/images/gallery-11.jpg" alt="Trevor and Marijomich gallery photo 11" loading="lazy"></button>
-        <button class="gallery__item gallery__item--12" type="button" data-gallery-index="11" data-aos="zoom-out" data-aos-delay="880" data-aos-duration="900"><img src="assets/images/gallery-12.jpg" alt="Trevor and Marijomich gallery photo 12" loading="lazy"></button>
-        <button class="gallery__item gallery__item--13" type="button" data-gallery-index="12" data-aos="zoom-in" data-aos-delay="960" data-aos-duration="900"><img src="assets/images/gallery-13.jpg" alt="Trevor and Marijomich gallery photo 13" loading="lazy"></button>
-        <button class="gallery__item gallery__item--14" type="button" data-gallery-index="13" data-aos="zoom-out" data-aos-delay="1040" data-aos-duration="900"><img src="assets/images/gallery-14.jpg" alt="Trevor and Marijomich gallery photo 14" loading="lazy"></button>
-        <button class="gallery__item gallery__item--15" type="button" data-gallery-index="14" data-aos="zoom-in" data-aos-delay="1120" data-aos-duration="900"><img src="assets/images/gallery-15.jpg" alt="Trevor and Marijomich gallery photo 15" loading="lazy"></button>
+        <button class="gallery__item gallery__item--1" type="button" data-gallery-index="0" data-aos="zoom-out" data-aos-duration="900"><picture><source srcset="assets/images/gallery-01.webp" type="image/webp"><img src="assets/images/gallery-01.jpg" alt="Trevor and Marijomich gallery photo 1" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--2" type="button" data-gallery-index="1" data-aos="zoom-out" data-aos-delay="80" data-aos-duration="900"><picture><source srcset="assets/images/gallery-02.webp" type="image/webp"><img src="assets/images/gallery-02.jpg" alt="Trevor and Marijomich gallery photo 2" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--3" type="button" data-gallery-index="2" data-aos="zoom-in" data-aos-delay="160" data-aos-duration="900"><picture><source srcset="assets/images/gallery-03.webp" type="image/webp"><img src="assets/images/gallery-03.jpg" alt="Trevor and Marijomich gallery photo 3" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--4" type="button" data-gallery-index="3" data-aos="zoom-out" data-aos-delay="240" data-aos-duration="900"><picture><source srcset="assets/images/gallery-04.webp" type="image/webp"><img src="assets/images/gallery-04.jpg" alt="Trevor and Marijomich gallery photo 4" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--5" type="button" data-gallery-index="4" data-aos="zoom-in" data-aos-delay="320" data-aos-duration="900"><picture><source srcset="assets/images/gallery-05.webp" type="image/webp"><img src="assets/images/gallery-05.jpg" alt="Trevor and Marijomich gallery photo 5" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--6" type="button" data-gallery-index="5" data-aos="zoom-out" data-aos-delay="400" data-aos-duration="900"><picture><source srcset="assets/images/gallery-06.webp" type="image/webp"><img src="assets/images/gallery-06.jpg" alt="Trevor and Marijomich gallery photo 6" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--7" type="button" data-gallery-index="6" data-aos="zoom-in" data-aos-delay="480" data-aos-duration="900"><picture><source srcset="assets/images/gallery-07.webp" type="image/webp"><img src="assets/images/gallery-07.jpg" alt="Trevor and Marijomich gallery photo 7" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--8" type="button" data-gallery-index="7" data-aos="zoom-out" data-aos-delay="560" data-aos-duration="900"><picture><source srcset="assets/images/gallery-08.webp" type="image/webp"><img src="assets/images/gallery-08.jpg" alt="Trevor and Marijomich gallery photo 8" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--9" type="button" data-gallery-index="8" data-aos="zoom-in" data-aos-delay="640" data-aos-duration="900"><picture><source srcset="assets/images/gallery-09.webp" type="image/webp"><img src="assets/images/gallery-09.jpg" alt="Trevor and Marijomich gallery photo 9" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--10" type="button" data-gallery-index="9" data-aos="zoom-out" data-aos-delay="720" data-aos-duration="900"><picture><source srcset="assets/images/gallery-10.webp" type="image/webp"><img src="assets/images/gallery-10.jpg" alt="Trevor and Marijomich gallery photo 10" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--11" type="button" data-gallery-index="10" data-aos="zoom-in" data-aos-delay="800" data-aos-duration="900"><picture><source srcset="assets/images/gallery-11.webp" type="image/webp"><img src="assets/images/gallery-11.jpg" alt="Trevor and Marijomich gallery photo 11" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--12" type="button" data-gallery-index="11" data-aos="zoom-out" data-aos-delay="880" data-aos-duration="900"><picture><source srcset="assets/images/gallery-12.webp" type="image/webp"><img src="assets/images/gallery-12.jpg" alt="Trevor and Marijomich gallery photo 12" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--13" type="button" data-gallery-index="12" data-aos="zoom-in" data-aos-delay="960" data-aos-duration="900"><picture><source srcset="assets/images/gallery-13.webp" type="image/webp"><img src="assets/images/gallery-13.jpg" alt="Trevor and Marijomich gallery photo 13" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--14" type="button" data-gallery-index="13" data-aos="zoom-out" data-aos-delay="1040" data-aos-duration="900"><picture><source srcset="assets/images/gallery-14.webp" type="image/webp"><img src="assets/images/gallery-14.jpg" alt="Trevor and Marijomich gallery photo 14" loading="lazy" decoding="async"></picture></button>
+        <button class="gallery__item gallery__item--15" type="button" data-gallery-index="14" data-aos="zoom-in" data-aos-delay="1120" data-aos-duration="900"><picture><source srcset="assets/images/gallery-15.webp" type="image/webp"><img src="assets/images/gallery-15.jpg" alt="Trevor and Marijomich gallery photo 15" loading="lazy" decoding="async"></picture></button>
       </div>
     </section>
 
     <!-- ============================ ENTOURAGE ============================ -->
     <section class="entourage framed-section" id="entourage" aria-labelledby="entourage-title">
-      <div class="section-ornament section-ornament--top"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-ornament section-ornament--bottom"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--top-left"><img src="assets/images/cover-trailing-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right"><img src="assets/images/cover-bouquet.png" alt=""></div>
-      <div class="section-flower section-flower--top-left-small"><img src="assets/images/cover-flower.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right-small"><img src="assets/images/cover-bow.png" alt=""></div>
+      <div class="section-ornament section-ornament--top"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-ornament section-ornament--bottom"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left"><picture><source srcset="assets/images/cover-trailing-flowers.webp" type="image/webp"><img src="assets/images/cover-trailing-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right"><picture><source srcset="assets/images/cover-bouquet.webp" type="image/webp"><img src="assets/images/cover-bouquet.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left-small"><picture><source srcset="assets/images/cover-flower.webp" type="image/webp"><img src="assets/images/cover-flower.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right-small"><picture><source srcset="assets/images/cover-bow.webp" type="image/webp"><img src="assets/images/cover-bow.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="entourage__texture" aria-hidden="true"></div>
 
       <div class="entourage__content">
@@ -299,12 +299,12 @@
 
     <!-- ============================ RSVP ============================ -->
     <section class="rsvp framed-section" id="rsvp" aria-labelledby="rsvp-title">
-      <div class="section-ornament section-ornament--top"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-ornament section-ornament--bottom"><img src="assets/images/cover-horizontal-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--top-left"><img src="assets/images/cover-trailing-flowers.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right"><img src="assets/images/cover-bouquet.png" alt=""></div>
-      <div class="section-flower section-flower--top-left-small"><img src="assets/images/cover-flower.png" alt=""></div>
-      <div class="section-flower section-flower--bottom-right-small"><img src="assets/images/cover-bow.png" alt=""></div>
+      <div class="section-ornament section-ornament--top"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-ornament section-ornament--bottom"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left"><picture><source srcset="assets/images/cover-trailing-flowers.webp" type="image/webp"><img src="assets/images/cover-trailing-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right"><picture><source srcset="assets/images/cover-bouquet.webp" type="image/webp"><img src="assets/images/cover-bouquet.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--top-left-small"><picture><source srcset="assets/images/cover-flower.webp" type="image/webp"><img src="assets/images/cover-flower.png" alt="" loading="lazy" decoding="async"></picture></div>
+      <div class="section-flower section-flower--bottom-right-small"><picture><source srcset="assets/images/cover-bow.webp" type="image/webp"><img src="assets/images/cover-bow.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="rsvp__texture" aria-hidden="true"></div>
 
       <div class="rsvp__content">

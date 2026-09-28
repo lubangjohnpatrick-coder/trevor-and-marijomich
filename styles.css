@@ -168,7 +168,7 @@ textarea:focus-visible {
 }
 
 .welcome__background {
-  background: #fdfcf8 url("assets/images/cover-watercolor-alt.png") center center / cover no-repeat;
+  background: #fdfcf8 url("assets/images/cover-watercolor-alt.webp") center center / cover no-repeat;
   transform: scale(1.015);
 }
 
@@ -328,7 +328,7 @@ textarea:focus-visible {
   display: block;
   width: 100%;
   height: var(--flap);
-  background: url("assets/images/cover-envelope.png") top center / 100% calc(100% / 0.62) no-repeat;
+  background: url("assets/images/cover-envelope.webp") top center / 100% calc(100% / 0.62) no-repeat;
   clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
   border-radius: 4px 4px 0 0;
   transform: rotateX(0deg);
@@ -517,7 +517,7 @@ textarea:focus-visible {
 
 .hero__background {
   z-index: -3;
-  background: url("assets/images/hero.jpg") center center / cover no-repeat;
+  background: url("assets/images/hero.webp") center center / cover no-repeat;
 }
 
 .hero__shade {
@@ -609,7 +609,7 @@ textarea:focus-visible {
   isolation: isolate;
   overflow: hidden;
   background-color: var(--silver);
-  background-image: url("assets/images/green-texture.jpg");
+  background-image: url("assets/images/green-texture.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -681,7 +681,7 @@ textarea:focus-visible {
 /* The story section carries the couple photograph as its background */
 .story {
   min-height: clamp(1080px, 205vw, 1320px);
-  background-image: url("assets/images/story-couple.jpg");
+  background-image: url("assets/images/story-couple.webp");
   background-position: center 42%;
 }
 
@@ -766,7 +766,7 @@ textarea:focus-visible {
   isolation: isolate;
   min-height: 915px;
   overflow: hidden;
-  background: url("assets/images/gallery-06.jpg") center center / cover no-repeat;
+  background: url("assets/images/gallery-06.webp") center center / cover no-repeat;
 }
 
 .event__background {
@@ -913,7 +913,7 @@ textarea:focus-visible {
 
 .location__background {
   z-index: -3;
-  background: url("assets/images/green-texture.jpg") center / cover no-repeat;
+  background: url("assets/images/green-texture.webp") center / cover no-repeat;
 }
 
 .location__shade {
@@ -1040,7 +1040,7 @@ textarea:focus-visible {
      so the deep-green headings stay readable. */
   background:
     linear-gradient(180deg, rgb(252 251 244 / 95%), rgb(245 244 234 / 96%)),
-    url("assets/images/green-texture.jpg") center center / cover no-repeat;
+    url("assets/images/green-texture.webp") center center / cover no-repeat;
   box-shadow: 0 1px 6px rgb(47 58 38);
   pointer-events: none;
 }
@@ -1263,7 +1263,7 @@ textarea:focus-visible {
   min-height: 650px;
   overflow: hidden;
   color: #fff;
-  background: url("assets/images/location-forest.jpg") center center / cover no-repeat;
+  background: url("assets/images/location-forest.webp") center center / cover no-repeat;
 }
 
 .wishes__background {
@@ -1588,7 +1588,7 @@ textarea:focus-visible {
 
 .closing__background {
   z-index: -3;
-  background: url("assets/images/closing-photo.jpg") center center / cover no-repeat;
+  background: url("assets/images/closing-photo.webp") center center / cover no-repeat;
 }
 
 .closing__shade {
@@ -1914,13 +1914,13 @@ textarea:focus-visible {
   position: absolute;
   z-index: -3;
   inset: 0;
-  background: url("assets/images/green-texture.jpg") center / cover no-repeat;
+  background: url("assets/images/green-texture.webp") center / cover no-repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
 }
 
 .story::before {
-  background: url("assets/images/story-couple.jpg") center 42% / cover no-repeat;
+  background: url("assets/images/story-couple.webp") center 42% / cover no-repeat;
 }
 
 /* ---- hero ---- */
@@ -1941,14 +1941,14 @@ textarea:focus-visible {
 
 /* Save the Date section */
 .event__background {
-  background: url("assets/images/gallery-06.jpg") center / cover no-repeat;
+  background: url("assets/images/gallery-06.webp") center / cover no-repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
 }
 
 /* Message wall keeps the forest photo */
 .wishes__background {
-  background: url("assets/images/location-forest.jpg") center / cover no-repeat;
+  background: url("assets/images/location-forest.webp") center / cover no-repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
 }

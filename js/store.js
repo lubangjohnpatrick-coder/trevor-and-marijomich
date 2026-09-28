@@ -62,7 +62,21 @@
   }
 
   /* Short, readable, hard to guess: used for the /invite/<token> part. */
-  function makeToken() {
+  /* Turns a guest's name into the readable link they will receive, e.g.
+   "Charles Lawrence Gozo" -> "charleslawrencegozo". Spaces, punctuation and
+   accents are all dropped so the slug stays easy to type and to say out loud.
+   Falls back to a random token if the name has no usable characters left. */
+function slugFromName(name) {
+  const slug = String(name || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')   /* drop accents: L pertains -> l */
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')        /* spaces and punctuation vanish */
+    .slice(0, 40);
+  return RESERVED_SLUGS[slug] ? '' : slug;
+}
+
+function makeToken() {
     const alphabet = 'abcdefghijkmnpqrstuvwxyz23456789';
     const bytes = new Uint8Array(8);
     if (window.crypto && window.crypto.getRandomValues) {
@@ -156,6 +170,13 @@
   /* ================================================================== *
    * PUBLIC API
    * ================================================================== */
+  /* Paths that belong to the site itself and must never be mistaken for a
+     guest slug when reading the last segment of the URL. */
+  const RESERVED_SLUGS = {
+    admin: true, 'admin-page': true, invite: true, api: true, assets: true,
+    index: true, home: true, 'home-html': true, rsvp: true, 'rsvp-html': true
+  };
+
   const store = {
     mode: isSupabaseConfigured ? 'supabase' : 'local',
     isSupabaseConfigured: isSupabaseConfigured,
@@ -202,11 +223,15 @@
 
       if (store.mode === 'supabase') {
         await loadSupabase();
-        let token = makeToken();
-        for (let attempt = 0; attempt < 5; attempt += 1) {
+        /* Prefer the readable slug so the guest gets /charleslawrencegozo.
+           On a clash, append a short random tail rather than silently
+           overwriting the other guest. */
+        const base = slugFromName(cleanName);
+        let token = base || makeToken();
+        for (let attempt = 0; attempt < 6; attempt += 1) {
           const clash = unwrap(await client.from('invitations').select('token').eq('token', token).maybeSingle());
           if (!clash) break;
-          token = makeToken();
+          token = base ? base + '-' + makeToken().slice(0, 4) : makeToken();
         }
         const data = unwrap(await client
           .from('invitations')
@@ -217,8 +242,11 @@
       }
 
       const list = readLocal(LS.invitations);
-      let token = makeToken();
-      while (list.some((item) => item.token === token)) token = makeToken();
+      const base = slugFromName(cleanName);
+      let token = base || makeToken();
+      while (list.some((item) => item.token === token)) {
+        token = base ? base + '-' + makeToken().slice(0, 4) : makeToken();
+      }
       const record = {
         id: uid(),
         token,
@@ -446,6 +474,7 @@
   store.tokenFromLocation = function (href) {
     const url = new URL(href || window.location.href);
 
+    /* Long form printed by the admin page: /invite/<token> */
     const pathMatch = url.pathname.match(/\/invite\/([A-Za-z0-9_-]+)\/?$/);
     if (pathMatch) return decodeURIComponent(pathMatch[1]);
 
@@ -455,6 +484,12 @@
 
     const hash = (url.hash || '').replace(/^#/, '').trim();
     if (hash && /^[A-Za-z0-9_-]+$/.test(hash)) return hash;
+
+    /* Short readable form: /<token>, e.g. trevorandmich.online/charleslawrencegozo
+       Only the final path segment, and never a real file or one of our own
+       pages, so /admin.html and friends still behave normally. */
+    const slug = url.pathname.match(/\/([A-Za-z0-9_-]+)\/?$/);
+    if (slug && !RESERVED_SLUGS[slug[1].toLowerCase()]) return decodeURIComponent(slug[1]);
 
     return '';
   };
