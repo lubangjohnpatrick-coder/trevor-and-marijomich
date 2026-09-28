@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trevor &amp; Marijomich</title>
+<link rel="canonical" href="/">
+<meta http-equiv="refresh" content="0; url=./">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #2f3a26;
+    color: #eef0e6;
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+  p { font-size: 15px; letter-spacing: .04em; opacity: .8; }
+  a { color: #eef0e6; }
+</style>
+</head>
+<body>
+<p>Taking you to the invitation…</p>
+<script>
+  /* GitHub Pages has no URL rewrites, so an invitation link such as
+     /trevor-and-marijomich/invite/abc123 is served this 404 page instead.
+     We pull the token out and forward to the invitation itself.
+
+     The path has to be rebuilt carefully. A relative "./" here would resolve
+     against /invite/ and land back on a 404, so the /invite/<token> segment
+     is stripped and the real site folder is kept. */
+  (function () {
+    var path = window.location.pathname;
+    var match = path.match(/^(.*)\/invite\/([^/]+)\/?$/);
+
+    if (match) {
+      window.location.replace(match[1] + '/?token=' + encodeURIComponent(match[2]));
+      return;
+    }
+
+    /* not an invitation link - just send the visitor to the site root */
+    window.location.replace(path.replace(/[^/]*$/, '') || '/');
+  }());
+</script>
+</body>
+</html>

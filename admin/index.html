@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Invitation Admin | Trevor &amp; Marijomich</title>
+<link rel="canonical" href="../admin.html">
+<meta http-equiv="refresh" content="0; url=../admin.html">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #2f3a26;
+    color: #eef0e6;
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+  p { font-size: 15px; letter-spacing: .04em; opacity: .8; }
+</style>
+</head>
+<body>
+<p>Opening the admin page&hellip;</p>
+<script>
+  /* This file only exists so the admin page can be reached at a clean
+     /admin instead of /admin.html.
+
+     GitHub Pages has no URL rewrites, but it does serve admin/index.html
+     for the path /admin, so a plain redirect is enough. The real page
+     stays one level up at /admin.html, which keeps all its relative
+     paths (styles.css, js/config.js, js/store.js) working. */
+  (function () {
+    window.location.replace('../admin.html');
+  }());
+</script>
+</body>
+</html>
