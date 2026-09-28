@@ -105,6 +105,10 @@ const music = $('#background-music');
 const musicFrame = $('#music-frame');
 let musicWanted = false;
 
+/* Background music should sit under the page, not compete with it. Adjust
+   this between 0 and 1 if it feels too quiet or too loud. */
+const MUSIC_VOLUME = 0.35;
+
 function setMusicState(playing) {
   if (!musicButton) return;
   musicButton.classList.toggle('is-playing', playing);
@@ -117,6 +121,7 @@ function startMusic() {
 
   if (CONFIG.musicAudioSrc && music) {
     music.src = CONFIG.musicAudioSrc;
+    music.volume = MUSIC_VOLUME;
     music.play().then(() => setMusicState(true)).catch(() => setMusicState(false));
     return;
   }

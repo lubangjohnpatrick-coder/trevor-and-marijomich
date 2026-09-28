@@ -43,7 +43,7 @@ window.SITE_CONFIG = {
      Either drop an .mp3 into assets/audio/ and point to it here,
      or paste a YouTube video id and it will play in a hidden player.
      The music button stays hidden until one of these is filled in. */
-  musicAudioSrc: '',
+  musicAudioSrc: 'assets/audio/sax-serenade.mp3',
   musicVideoId: '',
 
   /* Admin fallback passcode. Left empty on purpose: the admin page is served
