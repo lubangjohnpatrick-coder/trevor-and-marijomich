@@ -464,9 +464,13 @@ function makeToken() {
 
   /* ---------------- link helpers ---------------- */
 
+  /* Builds the link a guest opens. The short /<token> form is used because it
+     reads like their own name, e.g. trevorandmich.online/charleslawrencegozo.
+     404.html forwards that slug to the invitation as ?token=, so no server-side
+     rewrite is needed. */
   store.inviteUrl = function (token) {
     const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-    return base + 'invite/' + token;
+    return base + encodeURIComponent(token);
   };
 
   /* Accepts /invite/<token>, ?token=.., ?to=.. and #<token> so the links
