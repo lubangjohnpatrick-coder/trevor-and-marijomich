@@ -914,12 +914,46 @@ textarea:focus-visible {
 }
 
 .story__amp {
-  margin: clamp(8px, 1.6vw, 16px) 0;
   color: #6f7f3c;
   font-family: var(--heading-font);
   font-size: var(--fs-title);
   font-style: italic;
   line-height: 1;
+}
+
+/* The couple's names, set as one line: "Trevor George White & Marijomich
+   Denniece Torres". This is the shrink-wrap treatment the entourage pairs use —
+   each side is a flex item at `0 1 auto`, so if the row is genuinely too wide
+   for the screen a name wraps inside its own half rather than the line
+   overflowing the section, and `flex-wrap` is the last-resort fallback.
+
+   The size has to come a long way down from --fs-display to fit three items
+   abreast: the two names and the ampersand are 44 script characters, which at
+   the old 40px needed roughly 790px — wider than any phone. This clamp lands
+   near 300px on a 375px phone and 950px on a 1440px desktop. */
+.story__names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(10px, 2.4vw, 26px);
+  max-width: 100%;
+}
+
+.story__names .person-card {
+  flex: 0 1 auto;
+}
+
+.story__names .person-card h3 {
+  font-size: clamp(13px, 4.2vw, 52px);
+}
+
+/* The ampersand sits between the two halves now rather than on its own line, so
+   its stacked margins are gone; the row's `gap` spaces it instead. */
+.story__names .story__amp {
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: clamp(13px, 4.2vw, 52px);
 }
 
 /* Event */
@@ -1001,10 +1035,19 @@ textarea:focus-visible {
   margin: 10px 0 4px;
   color: #333;
   font-family: var(--body-font);
-  font-size: clamp(20px, 5.13vw, 26px);
+  /* 4.5vw rather than the old 5.13vw. The date and the time now share one line
+     separated by a pipe -- 32 characters plus tracking -- which the old floor of
+     20px could not hold inside a 320px phone's 290px column. 4.5vw keeps the
+     whole line intact down to 320px and still reaches 26px on a desktop. */
+  font-size: clamp(15px, 4.4vw, 26px);
   font-weight: 500;
   line-height: var(--lh-title);
   letter-spacing: .04em;
+}
+
+.event__datetime-sep {
+  padding: 0 .25em;
+  color: #9aa37e;
 }
 
 .event__divider {
@@ -1265,29 +1308,44 @@ textarea:focus-visible {
   margin: 0 auto 24px;
 }
 
-.detail-block h3 {
-  max-width: 30em;
-  margin: 0 auto 8px;
+/* The two messages here — the ceremony time and the Filipino-heritage note —
+   are set in the same face and measure as the story's opening paragraph, because
+   they are the same kind of thing: a sentence addressed to the guest, not a
+   heading. They were --fs-subtitle in the serif at weight 500, which read as a
+   title sitting over a note and left the story copy looking like the only real
+   prose on the page. Every property in the shared rule is what `.story__intro`
+   already used: the body sans, --fs-lead, --lh-body, 34em, `pretty`. */
+.story__intro,
+.detail-block h3,
+.detail-block p {
+  max-width: 34em;
   color: var(--brown);
-  font-family: var(--heading-font);
-  font-size: var(--fs-subtitle);
-  font-weight: 500;
-  line-height: var(--lh-title);
-  text-wrap: balance;
+  font-family: var(--body-font);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
-/* `margin-inline: auto` is what keeps these centred. A `max-width` on a plain
+.detail-block h3 {
+  margin: 0 auto 8px;
+}
+
+.detail-block p {
+  margin: 4px auto;
+}
+
+/* The centred prose, now measured with the rest of the guest-facing copy. The
+   earlier per-selector versions of `.detail-block h3` and `.detail-block p` were
+   folded into the shared rule above, and what is left here is only the margin:
+   `margin-inline: auto` is what keeps these centred. A `max-width` on a plain
    block inside a wider centred parent does NOT centre itself — the box hugs
    the left edge while the text centres inside it, so the line reads as shifted
    left. The blocks here are plain blocks, not flex items, so they need the
    auto margins explicitly. (Sections whose content box is a flex column, like
    .story__content, centre these automatically via align-items.) */
 .detail-block p {
-  max-width: 34em;
   margin: 4px auto;
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
-  text-wrap: pretty;
 }
 
 /* Sized by HEIGHT, not width. The trimmed illustration is 600x838 — a portrait
@@ -1359,12 +1417,15 @@ textarea:focus-visible {
   /* `auto` on the inline margins is essential, not decorative. This rule is more
      specific than `.detail-block p`, so its margin shorthand replaces that one
      outright — a `0` here would reset the horizontal margins to zero and the
-     34em box would hug the left edge while the text centres inside it. */
+     34em box would hug the left edge while the text centres inside it.
+
+     Only the margin belongs here now. The rule also used to set
+     `font-family: var(--script-font)`, and at (0,3,0) it outranks the shared
+     `.story__intro, .detail-block h3, .detail-block p` rule at (0,1,1) — so
+     "We kindly ask our guests to arrive on time" kept the cursive face while
+     the sentence right above it became body sans. The size looked fixed and the
+     face did not. Dropping the family lets it inherit with everything else. */
   margin: 14px auto 0;
-  font-family: var(--script-font);
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  text-wrap: balance;
 }
 
 .detail-block__palette {
@@ -1475,14 +1536,19 @@ textarea:focus-visible {
   margin: 0 auto 14px;
 }
 
-.entourage__subheading {
-  margin-top: 26px !important;
-  margin-bottom: 10px !important;
-  font-family: var(--button-font) !important;
-  font-size: var(--fs-caption) !important;
-  letter-spacing: .18em;
-  color: #3e4e2c;
-  text-transform: uppercase;
+/* "Principal Sponsors" and "Our Little Entourage" group several roles under one
+   heading, while "Best Man" and "Groomsmen" head a single role. They used to be
+   told apart by tracking alone -- .18em against the .1em that `.entourage h3`
+   sets -- which at the same 14px still read as two different sizes, since wider
+   tracking makes the capitals look larger and airier. The subheadings now
+   inherit the role-label treatment exactly and are distinguished by spacing
+   only.
+
+   The selector carries `h3` so it outranks `.entourage h3` on its own and needs
+   no `!important`; at (0,2,1) against (0,1,1) that is settled. */
+.entourage h3.entourage__subheading {
+  margin-top: 26px;
+  margin-bottom: 10px;
 }
 
 /* Both sponsor columns are centred, rather than the left one right-aligned and
@@ -2349,6 +2415,25 @@ textarea:focus-visible {
   100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
+/* The maps button gets the same treatment, for a better reason: the section's
+   only call to action should not depend on a scroll observer to become visible.
+   It had gone missing on a phone three separate times while the cause was never
+   the element's own geometry -- two of those fixes were guesses that turned out
+   to be wrong. `.anim-in` needs no JavaScript, no IntersectionObserver and no
+   120px trigger margin, so there is nothing that can strand it at opacity 0; it
+   plays the moment the stylesheet loads. A pure scale, so like the `zoom-in` it
+   replaced it starts inset and cannot be pushed outside the section's
+   `overflow: hidden` the way a downward or upward translate can. */
+.location__cta.anim-in {
+  animation-name: cta-scale-in;
+  animation-duration: 900ms;
+}
+
+@keyframes cta-scale-in {
+  0% { opacity: 0; transform: scale(.88); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 @keyframes seal-breathe {
   0%, 100% { transform: translate(-50%, -50%) scale(1); }
   50% { transform: translate(-50%, -50%) scale(1.05); }
@@ -2586,7 +2671,13 @@ textarea:focus-visible {
     text-align: center;
   }
 
-  .role-columns p {
+  /* Both paired lists, not just the three entourage pairs. The sponsor columns
+     were left out of this rule, so on a phone their names stayed at the desktop
+     16px from `.entourage p` while every other name in the section stepped down
+     to 14px -- one section rendering two name sizes at once. Sponsors are
+     included here so all four pairs agree. */
+  .role-columns p,
+  .sponsor-columns p {
     font-size: clamp(14px, 3.6vw, 16px);
   }
 

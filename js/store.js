@@ -103,7 +103,7 @@ function makeToken() {
     if (client) return Promise.resolve(client);
     if (clientPromise) return clientPromise;
 
-    clientPromise = new Promise((resolve, reject) => {
+    const attempt = new Promise((resolve, reject) => {
       if (window.supabase && window.supabase.createClient) {
         client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
         resolve(client);
@@ -122,6 +122,17 @@ function makeToken() {
       };
       script.onerror = () => reject(new Error('The Supabase library could not be loaded. Check your connection.'));
       document.head.appendChild(script);
+    });
+
+    /* Clearing clientPromise on failure matters. It used to be left in place
+       holding the rejected promise, so a single blocked or slow CDN request --
+       a flaky phone connection, an ad blocker, a captive portal -- meant every
+       later attempt in that page session reused the same rejection and could
+       never recover. A guest who retried once the network was back was still
+       told it had failed. Clearing it lets the next call try again. */
+    clientPromise = attempt.catch((error) => {
+      clientPromise = null;
+      throw error;
     });
 
     return clientPromise;
@@ -326,17 +337,34 @@ function makeToken() {
 
       if (store.mode === 'supabase') {
         await loadSupabase();
-        const data = unwrap(await client
+        /* Deliberately NOT `.insert().select().single()`.
+           Chaining `.select()` makes PostgREST send `Prefer: return=representation`,
+           which runs a SELECT straight after the INSERT. The anon role has no
+           SELECT policy on this table, so the read-back fails and the whole
+           statement is rejected:
+             {"code":"42501","message":"new row violates row-level security
+              policy for table \"wishes\""}
+           which surfaced to the guest as "something went wrong" on every
+           single submission. A bare `.insert()` returns 201 and the row is
+           stored. The object handed back is therefore built here from what we
+           just sent, which is the same data -- there is nothing to read.
+           The admin page still reads these rows in full through its own
+           privileged key. */
+        unwrap(await client
           .from('wishes')
           .insert({
             name: cleanName,
             message: cleanMessage,
             token: token || null,
             is_approved: true
-          })
-          .select()
-          .single());
-        return fromWishRow(data);
+          }));
+        return fromWishRow({
+          name: cleanName,
+          message: cleanMessage,
+          token: token || '',
+          is_approved: true,
+          created_at: nowISO()
+        });
       }
 
       const list = readLocal(LS.wishes);
@@ -373,20 +401,32 @@ function makeToken() {
     async addRsvp(record) {
       if (store.mode === 'supabase') {
         await loadSupabase();
-        const data = unwrap(await client
+        /* Same reason as addWish: no `.select().single()`. Reading the row back
+           needs a SELECT policy the anon role does not have, and its absence
+           turned every RSVP into the red "your reply was not saved" error even
+           though the row was written. A bare insert returns 201. */
+        const paxValue = record.attendance === 'Yes' ? Number(record.pax) || 1 : 0;
+        unwrap(await client
           .from('rsvps')
           .insert({
             name: record.name,
             email: record.email || null,
             attendance: record.attendance,
-            pax: record.attendance === 'Yes' ? Number(record.pax) || 1 : 0,
+            pax: paxValue,
             dietary: record.dietary || null,
             message: record.message || null,
             token: record.token || null
-          })
-          .select()
-          .single());
-        return fromRsvpRow(data);
+          }));
+        return fromRsvpRow({
+          name: record.name,
+          email: record.email || '',
+          attendance: record.attendance,
+          pax: paxValue,
+          dietary: record.dietary || '',
+          message: record.message || '',
+          token: record.token || '',
+          created_at: nowISO()
+        });
       }
 
       const list = readLocal(LS.rsvps);

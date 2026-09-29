@@ -125,15 +125,21 @@
 and begin our forever together.
         </p>
 
-        <article class="person-card" data-aos="zoom-out-left" data-aos-delay="150">
-          <h3>Trevor George White</h3>
-        </article>
+        <!-- One row, so the couple's names read as a single line rather than three
+             stacked ones. The wrapper is what allows that: .story__content is a
+             centred flex column, so without a row of its own these three items
+             always stack. -->
+        <div class="story__names">
+          <article class="person-card" data-aos="zoom-out-left" data-aos-delay="150">
+            <h3>Trevor George White</h3>
+          </article>
 
-        <div class="story__amp" data-aos="zoom-in" data-aos-delay="300" aria-hidden="true">&amp;</div>
+          <div class="story__amp" data-aos="zoom-in" data-aos-delay="300" aria-hidden="true">&amp;</div>
 
-        <article class="person-card" data-aos="zoom-out-right" data-aos-delay="450">
-          <h3>Marijomich Denniece Torres</h3>
-        </article>
+          <article class="person-card" data-aos="zoom-out-right" data-aos-delay="450">
+            <h3>Marijomich Denniece Torres</h3>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -145,10 +151,7 @@ and begin our forever together.
 
       <div class="event__content">
         <h2 id="event-title" data-aos="zoom-out-down">Save the Date</h2>
-        <p class="event__datetime" data-aos="zoom-in-up" data-aos-delay="200">
-          Monday, 04 January 2027<br>
-          03:30 PM
-        </p>
+        <p class="event__datetime" data-aos="zoom-in-up" data-aos-delay="200">Monday, 04 January 2027 <span class="event__datetime-sep" aria-hidden="true">|</span> 03:30 PM</p>
         <img class="event__divider" src="assets/images/event-monogram.png" width="480" height="353" data-aos="zoom-in" data-aos-delay="400" alt="">
 
         <p class="countdown__label" data-aos="fade-up" data-aos-delay="300">Countdown to <strong>our Wedding</strong></p>
@@ -171,7 +174,17 @@ and begin our forever together.
       <div class="location__shade" aria-hidden="true"></div>
 
       <div class="location__content">
-        <h2 id="location-title" data-aos="zoom-out-down" data-aos-once="true">Location</h2>
+        <!-- `zoom-out`, not `zoom-out-down`, for the same reason as the maps
+             button below. `zoom-out-down` starts at translate3d(0,-100px,0), and
+             this heading is the first thing in the section, so that lift puts it
+             100px ABOVE the top edge. .location sets overflow: hidden and the
+             mobile padding here is 64px where the desktop has 110px -- so on a
+             phone 64 - 100 + 34 = -2px: the entire heading sits above the clip,
+             its intersection ratio is 0, the observer never fires, and the
+             heading stays at opacity 0 permanently. A pure scale starts inset
+             and cannot be clipped. The other section titles keep `zoom-out-down`
+             because their wrappers all clear 100px; this one does not. -->
+        <h2 id="location-title" data-aos="zoom-out" data-aos-once="true">Location</h2>
 
         <!-- The venue's own logo carries the name, so the typed venue line and
              the "EMV Flower Farm" line are both gone. The Google Maps links
@@ -187,17 +200,15 @@ and begin our forever together.
           <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
-        <!-- `zoom-in`, not `zoom-in-up`. This button is the last element inside a
-             section that sets `overflow: hidden`, and a downward entrance moves it
-             100px below the section's bottom edge before it animates. Clipped out
-             of view, its intersection ratio is 0, so the observer never fires and
-             it stays at opacity 0 for good -- the button simply never appears, on
-             a phone only, because the mobile padding here is 56px where the
-             desktop has 110px. A pure scale starts inset rather than outside, so
-             it cannot be clipped and always triggers. Do not change this to a
-             translating effect without raising this section's bottom padding
-             past 100px first. -->
-        <a class="button button--outline" data-aos="zoom-in" data-aos-delay="650" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
+        <!-- A plain CSS entrance via .anim-in, deliberately not data-aos. The
+             section's only call to action should not be at the mercy of a scroll
+             observer: it had gone missing on a phone three times over, and two of
+             the earlier fixes turned out to be wrong guesses. `.anim-in` needs no
+             JavaScript and no IntersectionObserver, so nothing can leave it
+             stranded at opacity 0 -- it plays as soon as the stylesheet loads.
+             The keyframe in styles.css is a pure scale, so it starts inset and
+             cannot be pushed outside the section's `overflow: hidden`. -->
+        <a class="button button--outline location__cta anim-in" style="--in-delay:650ms" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
           <span aria-hidden="true">&#128506;</span> Open GMAPS
         </a>
       </div>
@@ -219,7 +230,7 @@ and begin our forever together.
         <div class="detail-block detail-block--attire" data-aos="zoom-out-up" data-aos-delay="200">
           <h3>The ceremony will commence promptly at 3:30 pm</h3>
           <p class="detail-block__arrival">
-            We kindly ask our guests to arrive on time and be seated before the ceremony begins<br>
+            We kindly ask our guests to arrive on time and be seated before the ceremony begins
           </p>
         </div>
 
