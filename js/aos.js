@@ -12,19 +12,26 @@
      data-aos-duration     ms the animation takes        (default 1200)
      data-aos-offset       how far into the viewport the
                            element must travel, in px    (default 120)
-     data-aos-once         "true" (the default) to stay animated
-                           for good, "false" to replay every
-                           time the element scrolls back in
+     data-aos-once         "false" (the default) to replay every
+                           time the element scrolls back in,
+                           "true" to stay animated for good
      data-aos-easing       a transition timing curve; see
                            css/aos.css for the names
 
-   Sticking: an element animates in once and then keeps its final state. Replay
-   is the trap this default exists to avoid. An effect starts at opacity 0 and
-   only the observer's .aos-animate class brings it back, so a section taller
-   than the viewport has its contents re-hidden the moment they scroll past the
-   top, then re-shown on the way back down. On a long section that reads as
-   content simply vanishing. Once an element has appeared it stays. Opt back
-   into replaying per element with data-aos-once="false".
+   Replaying is the default, and it is the nicer effect: each section plays its
+   entrance as you arrive at it, then plays again on the way back up, so the
+   page feels alive in both directions instead of settling once and going flat.
+
+   The one thing replay cannot survive is being CLIPPED, and that is a separate
+   problem that no setting here fixes. An effect starts at opacity 0 and only
+   the observer's .aos-animate class brings it back. An element sitting outside
+   a clipping ancestor has an intersection ratio of zero, so it never fires and
+   stays invisible for good. It happens when a translating effect -- zoom-in-up,
+   fade-up and zoom-out-up travel down, zoom-out-down travels up -- is the last
+   thing in a section with `overflow: hidden`, or the first thing in one whose
+   padding on that side is under the 100px of travel. Where that padding could
+   not be given, the effect was swapped for a pure scale, which starts inset and
+   cannot be clipped. Opt one element out of replaying with data-aos-once="true".
 
    Exposed on window so the page can re-measure after fonts or images land:
      AOS.refresh()
@@ -33,15 +40,15 @@
 (function () {
   'use strict';
 
-  /* `once: true` is the load-bearing one. Every effect starts at opacity 0 and
-     only .aos-animate brings it back, so with once:false a section taller than
-     the viewport keeps re-hiding its own contents as they scroll past the top
-     -- which looks exactly like text that has gone missing. */
+  /* `once: false` means an element replays its entrance every time it comes
+     back into view, which is the effect this site wants. The hazard is not the
+     replay but clipping -- see the note in the header above -- and that is
+     handled per element in the markup, not here. */
   const DEFAULTS = {
     duration: 1200,
     delay: 0,
     offset: 120,
-    once: true,
+    once: false,
     easing: null
   };
 

@@ -31,8 +31,8 @@
        change to js/aos.js went unseen after the AOS replay default was fixed.
        Fonts are deliberately left alone: a wrong ?v on a .woff is a wasted
        download, and they never change once set. -->
-  <link rel="stylesheet" href="styles.css?v=2">
-  <link rel="stylesheet" href="css/aos.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="css/aos.css?v=3">
 </head>
 <body class="welcome-open">
 
@@ -106,7 +106,7 @@
         <!-- The flat T&M mark, not the wreath. The wreath is the cover's logo and
              stays there; this one is a quiet sign-off under the date. It is a
              PNG on a transparent background, so it sits straight on the
-             photograph. No loading="lazy" — above the fold, first thing on the
+             photograph. No loading="lazy" Ã¢â‚¬â€ above the fold, first thing on the
              page. -->
         <figure class="hero__monogram" data-aos="zoom-in" data-aos-delay="600" data-aos-easing="ease-out-back">
           <img src="assets/images/event-monogram.png" width="480" height="353" alt="The T and M monogram of Trevor and Marijomich" decoding="async">
@@ -191,19 +191,19 @@ and begin our forever together.
              heading stays at opacity 0 permanently. A pure scale starts inset
              and cannot be clipped. The other section titles keep `zoom-out-down`
              because their wrappers all clear 100px; this one does not. -->
-        <h2 id="location-title" data-aos="zoom-out" data-aos-once="true">Location</h2>
+        <h2 id="location-title" data-aos="zoom-out">Location</h2>
 
         <!-- The venue's own logo carries the name, so the typed venue line and
              the "EMV Flower Farm" line are both gone. The Google Maps links
              below keep the query so the button still resolves. -->
-        <img class="location__logo" src="assets/images/Venue-Logo.png" width="500" height="500" alt="Hacienda Solange Indang" loading="lazy" decoding="async" data-aos="zoom-out-up" data-aos-delay="150" data-aos-once="true">
+        <img class="location__logo" src="assets/images/Venue-Logo.png" width="500" height="500" alt="Hacienda Solange Indang" loading="lazy" decoding="async" data-aos="zoom-out-up" data-aos-delay="150">
         
-        <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back" data-aos-once="true">
+        <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back">
           <img src="assets/images/venue.jpg" width="1417" height="1110" alt="The wooden halls at Hacienda Solange Indang reflected in the lake" loading="lazy" decoding="async">
         </figure>
 
-        <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400" data-aos-once="true">Maps</p>
-        <a class="location__map" data-aos="zoom-out-up" data-aos-delay="500" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener" aria-label="Open the wedding location in Google Maps">
+        <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400">Maps</p>
+        <a class="location__map" data-aos="zoom-out-up" data-aos-delay="500" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener" aria-label="Open the wedding location in Google Maps">
           <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
@@ -338,7 +338,7 @@ and begin our forever together.
       <div class="wishes__content">
         <h2 id="wishes-title" class="sr-only">Wishes from our guests</h2>
         <div class="wishes__scroll" id="wishes-list" aria-label="Messages from family and friends" aria-live="polite" data-aos="zoom-out-down">
-          <p class="wishes__status" id="wishes-status">Loading messages…</p>
+          <p class="wishes__status" id="wishes-status">Loading messagesÃ¢â‚¬Â¦</p>
         </div>
       </div>
     </section>
@@ -396,7 +396,7 @@ and begin our forever together.
           <input id="guest-diet" name="dietary" type="text" placeholder="e.g. vegetarian, no shellfish">
 
           <label for="guest-wish">Wishes</label>
-          <textarea id="guest-wish" name="wish" rows="5" placeholder="Write a message for Trevor and Marijomich…"></textarea>
+          <textarea id="guest-wish" name="wish" rows="5" placeholder="Write a message for Trevor and MarijomichÃ¢â‚¬Â¦"></textarea>
 
           <button class="button button--submit" type="submit" disabled>Submit</button>
           <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
@@ -413,7 +413,7 @@ and begin our forever together.
            class when an element scrolls back out of view, which can leave the
            names and the sign-off blank after they have already appeared. -->
       <div class="closing__content">
-        <p data-aos="zoom-out-up" data-aos-once="true">
+        <p data-aos="zoom-out-up">
           Two hearts, two cultures, two journey, coming together as one.
           <br><br>As we begin this beautiful new chapter, we are grateful for the love that brought us together and for the families who have shaped who we are.
           <br><br>From Australia to the Philippines, two different backgrounds become one shared journey, united by love, family, and the promise of forever.
@@ -421,14 +421,14 @@ and begin our forever together.
           <br><br>Your presence will make our celebration even more meaningful.
  
         </p>
-        <span data-aos="fade-up" data-aos-delay="200" data-aos-once="true">With Love,</span>
-        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back" data-aos-once="true">Trevor &amp; Marijomich</h2>
+        <span data-aos="fade-up" data-aos-delay="200">With Love,</span>
+        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back">Trevor &amp; Marijomich</h2>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p data-aos="fade-up" data-aos-once="true">Trevor &amp; Marijomich &middot; 01 . 04 . 2027 &middot; Hacienda Solange Indang</p>
+    <p data-aos="fade-up">Trevor &amp; Marijomich &middot; 01 . 04 . 2027 &middot; Hacienda Solange Indang</p>
     <!-- Build stamp. Not decoration: this is the fastest way to tell whether the
          browser is actually running the current files. A stale cached script or
          stylesheet looks exactly like a fix that did not work, and that is the
@@ -436,7 +436,7 @@ and begin our forever together.
          very bottom of the page. If it does not match the ?v= in the <head>,
          the browser is serving something old -- force a reload, or bump the ?v.
          Bump the two together. -->
-    <p class="site-footer__build" aria-hidden="true">build v2</p>
+    <p class="site-footer__build" aria-hidden="true">build v3</p>
   </footer>
 
   <!-- Music: the button appears only once a track is set in js/config.js -->
@@ -457,9 +457,9 @@ and begin our forever together.
   </div>
 
   <!-- Order matters: config -> data layer -> animations -> page behaviour -->
-  <script src="js/config.js?v=2"></script>
-  <script src="js/store.js?v=2"></script>
-  <script src="js/aos.js?v=2"></script>
-  <script src="script.js?v=2"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/store.js?v=3"></script>
+  <script src="js/aos.js?v=3"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
