@@ -2660,13 +2660,14 @@ textarea:focus-visible {
     text-align: center;
   }
 
-  /* Both paired lists, not just the three entourage pairs. The sponsor columns
-     were left out of this rule, so on a phone their names stayed at the desktop
-     16px from `.entourage p` while every other name in the section stepped down
-     to 14px -- one section rendering two name sizes at once. Sponsors are
-     included here so all four pairs agree. */
-  .role-columns p,
-  .sponsor-columns p {
+  /* Every name in the section, not the paired ones only. `.entourage p` is the
+     base rule, so scoping this to `.role-columns p` and `.sponsor-columns p`
+     left out "Parents of the Groom" and "Parents of the Bride" -- those two
+     `.role-block`s are direct children of `.entourage__content` and sit in
+     neither container, so they kept the desktop 16px while every other name in
+     the section stepped down to 14px. The only <p> elements inside .entourage
+     are guest names, so matching on the section is both simpler and complete. */
+  .entourage p {
     font-size: clamp(14px, 3.6vw, 16px);
   }
 
