@@ -146,8 +146,8 @@ and begin our forever together.
       <div class="event__content">
         <h2 id="event-title" data-aos="zoom-out-down">Save the Date</h2>
         <p class="event__datetime" data-aos="zoom-in-up" data-aos-delay="200">
-          <strong>Monday, 04 January 2027</strong><br>
-          <strong>03:30 PM</strong>
+          Monday, 04 January 2027<br>
+          03:30 PM
         </p>
         <img class="event__divider" src="assets/images/event-monogram.png" width="480" height="353" data-aos="zoom-in" data-aos-delay="400" alt="">
 
@@ -187,7 +187,17 @@ and begin our forever together.
           <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
-        <a class="button button--outline" data-aos="zoom-in-up" data-aos-delay="650" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
+        <!-- `zoom-in`, not `zoom-in-up`. This button is the last element inside a
+             section that sets `overflow: hidden`, and a downward entrance moves it
+             100px below the section's bottom edge before it animates. Clipped out
+             of view, its intersection ratio is 0, so the observer never fires and
+             it stays at opacity 0 for good -- the button simply never appears, on
+             a phone only, because the mobile padding here is 56px where the
+             desktop has 110px. A pure scale starts inset rather than outside, so
+             it cannot be clipped and always triggers. Do not change this to a
+             translating effect without raising this section's bottom padding
+             past 100px first. -->
+        <a class="button button--outline" data-aos="zoom-in" data-aos-delay="650" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
           <span aria-hidden="true">&#128506;</span> Open GMAPS
         </a>
       </div>
@@ -330,7 +340,6 @@ and begin our forever together.
         <p class="rsvp__intro" data-aos="fade-up" data-aos-delay="150">
           For family and friends, please confirm attendance below by
           <strong>November 04, 2026</strong> and give a greeting for the bride and groom.<br><br>
-          Note: Strictly adult event only.
         </p>
 
         <!-- Shown only when the visitor opened a personal invitation link -->
