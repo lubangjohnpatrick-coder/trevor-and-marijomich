@@ -48,16 +48,18 @@ function applyInvitation(record) {
   const reservedSeats = record ? Number(record.seats) || 2 : Number(WEDDING.defaultSeats) || 2;
 
   if (record && record.name) {
-    $('#welcome-title').textContent = record.name;
+    /* Only the name span is replaced. Writing to #welcome-title would wipe the
+       "Dear" lead-in and the trailing comma that wrap it. */
+    $('#welcome-name').textContent = record.name;
     document.title = record.name + ' | Trevor & Marijomich';
   }
 
   if (record && record.active === false) $('#welcome-note').hidden = false;
 
   $('#welcome-seats').replaceChildren(
-    document.createTextNode('( We have reserved '),
+    document.createTextNode('We have reserved '),
     Object.assign(document.createElement('b'), { textContent: pluralSeats(reservedSeats) }),
-    document.createTextNode(' for you )')
+    document.createTextNode(' especially for you.')
   );
 
   /* RSVP form: the guest's name comes from their link and cannot be edited */

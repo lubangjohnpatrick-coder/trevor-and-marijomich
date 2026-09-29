@@ -22,12 +22,64 @@
   font-display: swap;
 }
 
+/* Bebas Neue (SIL Open Font License) — the tall condensed face used for the
+   countdown digits. Only the latin subset is bundled, so the unicode-range
+   lets the browser fall back cleanly instead of showing missing glyphs. */
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("assets/fonts/bebas-neue.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2212;
+}
+
 :root {
   --body-font: "Trevenir Sans", "Segoe UI", Arial, sans-serif;
   --script-font: "Trevenir Script", "Brush Script MT", cursive;
   --cover-font: "Trevenir Cover", "Brush Script MT", cursive;
   --heading-font: "Trevenir Script", "Brush Script MT", cursive;
   --button-font: "Trevenir Sans", Arial, sans-serif;
+  --countdown-font: "Bebas Neue", "Trevenir Sans", "Arial Narrow", Arial, sans-serif;
+
+  /* ------------------------------------------------------------------------
+     TYPE SCALE
+     One place for every size, so the hierarchy cannot drift apart again. Each
+     value is a clamp(): the first argument is the floor on a 320px phone, the
+     middle is a fluid slope in vw, the last is the desktop ceiling.
+
+     The script faces carry their own hierarchy -- Trevenir Cover for the
+     couple's names, Trevenir Script for the couple's names in the story, the
+     section titles and the sub-headings, Trevenir Sans for body and details.
+
+     The display steps are deliberately large. A calligraphic face has a small
+     x-height inside its em box, so it needs more nominal size than a plain
+     serif would to read with any presence -- these were previously 122px and
+     110px before the scale was introduced, and dropping them far below that
+     made the page read as thin rather than refined.
+
+     IPHONE-FIRST. Most guests open this on a phone, so 390px is the width the
+     floors are drawn for, not a last-resort fallback. The middle term of every
+     clamp is 100 * floor / 390, which makes the fluid term equal the floor at
+     390px exactly -- so the floor is what a phone sees, and growth starts from
+     there. (The previous values used small vw terms that were still below the
+     floor at 430px, so every iPhone was pinned to its minimum and nothing
+     actually scaled.)
+     ------------------------------------------------------------------------ */
+  --fs-display: clamp(40px, 10.26vw, 84px);  /* the couple's names      */
+  --fs-title:   clamp(30px, 7.69vw, 52px);   /* section titles (h2)    */
+  --fs-subtitle:clamp(22px, 5.64vw, 34px);  /* sub-headings (h3)      */
+  --fs-date:    clamp(24px, 6.15vw, 40px);  /* the wedding date        */
+  --fs-lead:    clamp(17px, 4.36vw, 20px);  /* lead-in paragraphs     */
+  --fs-body:    clamp(16px, 4.10vw, 18px);  /* running text           */
+  --fs-caption: clamp(14px, 3.59vw, 16px); /* captions, notes, details */
+
+  /* Leading. A Garamond needs more air than a sans at the same size: the long
+     descenders and the ampersand swash will crowd at 1.2. */
+  --lh-display: 1.06;
+  --lh-title:   1.14;
+  --lh-body:    1.62;
+  --lh-caption: 1.5;
 
   /* Trevor & Marijomich theme */
   --brown: #3e4e2c;   /* deep olive - headings */
@@ -211,23 +263,6 @@ textarea:focus-visible {
   outline: 2px solid #6b7a3f;
   outline-offset: 6px;
   border-radius: 14px;
-}
-
-/* ---- the outlined olive script line, now below the envelope ---- */
-.welcome__script {
-  position: relative;
-  z-index: 5;
-  margin: clamp(4px, 1.2vh, 16px) 0 0;
-  color: #6f7f3c;
-  font-family: var(--cover-font);
-  font-size: clamp(26px, 4.2vw, 56px);
-  line-height: 1.2;
-  text-shadow:
-    2px 2px 0 rgb(255 255 255 / 88%),
-    -2px -2px 0 rgb(255 255 255 / 88%),
-    2px -2px 0 rgb(255 255 255 / 88%),
-    -2px 2px 0 rgb(255 255 255 / 88%),
-    0 6px 16px rgb(120 140 90 / 22%);
 }
 
 /* ---- the florals arranged as a wreath around the envelope ---- */
@@ -458,33 +493,74 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
-.welcome__dear {
-  margin: 0;
-  color: #4a5a33;
-  font-size: clamp(16px, 2.6vw, 24px);
+/* ---- the guest greeting ----------------------------------------------------
+   The name is set in the same serif as the couple's own names, so a personal
+   link reads as part of the invitation rather than a label stuck on it.
+   "Dear" shares that face, which keeps both words on a natural shared
+   baseline. The comma after the name is a bare text node, so it keeps the full
+   h1 size instead of shrinking with the lead-in. */
+.welcome__greeting-lead {
+  margin-right: .14em;
+  color: #6f7f3c;
+  font-size: .6em;
   line-height: 1;
 }
 
 .welcome h1 {
   max-width: 100%;
-  margin: 4px 0 3px;
+  margin: 0 0 clamp(8px, 1.8vh, 18px);
   color: #2f3a26;
-  font-family: var(--body-font);
-  font-size: clamp(26px, 4.4vw, 48px);
+  font-family: var(--script-font);
+  font-size: var(--fs-display);
   font-weight: 400;
-  line-height: 1.08;
+  /* Looser than the 1.15 the other script headings use: the swashes and long
+     descenders need the room, and a long name can wrap onto a second line. */
+  line-height: 1.2;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 
-.welcome__seats {
-  margin: 0 0 clamp(6px, 1.6vh, 20px);
+/* ---- the personal note under the greeting ----------------------------------
+   Three lines with a deliberate hierarchy. The reserved seats are a factual
+   detail and sit a step under the main copy; the invitation and the honour of
+   their presence carry the message. The measure is capped so a long guest name
+   above cannot stretch these lines out to an awkward width. */
+.welcome__message {
+  display: flex;
+  width: min(100%, 580px);
+  flex-direction: column;
+  gap: clamp(7px, 1.3vh, 14px);
+  margin: 0 auto clamp(14px, 3vh, 30px);
   color: #4a5a33;
-  font-size: clamp(13px, 1.8vw, 18px);
-  line-height: 1.2;
+  font-family: var(--body-font);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
+.welcome__message p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.welcome__seats {
+  color: #5c6a4e;
+  font-size: .88em;
+  line-height: 1.5;
+}
+
+/* The seat count is the one number worth pulling the eye to. Trevenir Sans
+   ships only weight 400, so it is emphasised with colour and a small size lift
+   rather than a faux bold that would render differently across platforms. */
 .welcome__seats b {
   color: #2f3a26;
+  font-size: 1.1em;
+}
+
+/* The closing thought, set a shade deeper and given a little extra air so it
+   lands as its own beat rather than a third equal line. */
+.welcome__honor {
+  margin-top: clamp(2px, .7vh, 9px);
+  color: #3e4e2c;
 }
 
 .welcome__note {
@@ -541,8 +617,8 @@ textarea:focus-visible {
 .hero__eyebrow,
 .hero__date {
   margin: 0;
-  font-size: clamp(20px, 6vw, 64px);
-  line-height: 1.08;
+  font-size: var(--fs-date);
+  line-height: var(--lh-title);
 }
 
 .hero__eyebrow,
@@ -552,25 +628,57 @@ textarea:focus-visible {
   text-shadow: 0 1px 10px rgb(255 255 255 / 92%), 0 0 26px rgb(255 255 255 / 78%);
 }
 
+/* The names are the largest element on the page, in Trevenir Cover. `nowrap`
+   is deliberately not set: the original 122px needed 1000px+ of width, so on a
+   narrower screen the line silently overflowed instead of wrapping. The fluid
+   --fs-display keeps it on one line down to about 430px, and below that it
+   wraps rather than clipping. */
 .hero__names {
-  margin: 4px 0 2px;
+  margin: 2px 0 4px;
   font-family: var(--cover-font);
-  font-size: clamp(43px, 9vw, 122px);
+  font-size: var(--fs-display);
   font-weight: 400;
-  line-height: 1.05;
-  white-space: nowrap;
+  line-height: var(--lh-display);
+  text-wrap: balance;
 }
 
+/* The ampersand is set smaller and given air on both sides so it reads as a
+   separator rather than crowding the two names. No italic: a script face is
+   already slanted, so the browser would synthesise a false oblique on top of
+   it. */
 .hero__names span {
   display: inline-block;
-  margin: 0 2px;
+  margin: 0 .1em;
   font-family: var(--cover-font);
-  font-size: .72em;
+  font-size: .68em;
+  font-style: normal;
   line-height: 1;
 }
 
 .hero__date {
-  font-size: clamp(21px, 5.5vw, 58px);
+  font-family: var(--body-font);
+  font-weight: 500;
+  letter-spacing: .1em;
+}
+
+/* The T&M monogram, closing the opening block under the names and the date.
+   Centred on desktop, the way the rest of the hero stack is; the phone
+   breakpoint moves it to the right-hand edge instead. */
+.hero__monogram {
+  width: clamp(118px, 15vw, 176px);
+  /* Dropped 180px below the date on desktop: 80px, then another 100px. calc()
+     keeps the fluid part of the gap scaling while the fixed drop is carried
+     alongside it, so the offset can be dialled up or down in one place. */
+  margin: calc(clamp(14px, 3.2vh, 30px) + 180px) auto 0;
+}
+
+.hero__monogram img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* The mark is drawn in a mid olive; the hero photograph behind it varies a
+     lot, so the pale halo keeps it readable over the bright sky areas. */
+  filter: drop-shadow(0 1px 3px rgb(255 255 255 / 85%));
 }
 
 .hero__scroll {
@@ -680,7 +788,7 @@ textarea:focus-visible {
 
 /* The story section carries the couple photograph as its background */
 .story {
-  min-height: clamp(1080px, 205vw, 1320px);
+  min-height: clamp(620px, 108vw, 780px);
   background-image: url("assets/images/story-couple.webp");
   background-position: center 42%;
 }
@@ -701,6 +809,12 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
+/* `justify-content: center` is the fix for the empty space. The section carries
+   a min-height for the frame and the floral ornaments, but the copy inside it is
+   now only an invitation line and two names — the parents' lines are gone. With
+   a flex column that has no justification, the leftover height all fell to the
+   bottom, leaving a large gap under Marijomich's name. Centring it splits the
+   slack evenly instead. */
 .story__content {
   position: relative;
   z-index: 3;
@@ -708,16 +822,21 @@ textarea:focus-visible {
   min-height: 100%;
   flex-direction: column;
   align-items: center;
-  padding: clamp(140px, 26vw, 190px) 20px;
+  justify-content: center;
+  /* Clears the 124px floral ornament at the top without the old 190px of
+     padding, which was only there to fill a taller block. */
+  padding: clamp(96px, 15vw, 132px) 20px;
   color: #2f3a26;
   text-align: center;
   text-shadow: 0 1px 10px rgb(255 255 255 / 92%), 0 0 26px rgb(255 255 255 / 78%);
 }
 
 .story__intro {
-  margin: 0 0 clamp(20px, 4vw, 38px);
-  font-size: clamp(17px, 4vw, 50px);
-  line-height: 1.25;
+  max-width: 34em;
+  margin: 0 0 clamp(18px, 3vw, 30px);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
 .story sup {
@@ -737,26 +856,31 @@ textarea:focus-visible {
    so the names and parents carry the section on their own. */
 .person-card h3 {
   max-width: 100%;
-  margin: 0 0 4px;
+  margin: 0 0 6px;
   color: #3e4e2c;
   font-family: var(--script-font);
-  font-size: clamp(34px, 6.4vw, 88px);
+  font-size: var(--fs-display);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: var(--lh-display);
+  letter-spacing: .01em;
+  text-wrap: balance;
 }
 
+/* The parents' names are details, not body copy — held to the caption size so
+   they sit under the name rather than competing with it. */
 .person-card p {
   margin: 0;
   color: #4a5a33;
-  font-size: clamp(15px, 2.4vw, 32px);
-  line-height: 1.28;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
 }
 
 .story__amp {
-  margin: clamp(10px, 2vw, 22px) 0;
+  margin: clamp(8px, 1.6vw, 16px) 0;
   color: #6f7f3c;
   font-family: var(--heading-font);
-  font-size: clamp(30px, 5.4vw, 66px);
+  font-size: var(--fs-title);
+  font-style: italic;
   line-height: 1;
 }
 
@@ -764,9 +888,16 @@ textarea:focus-visible {
 .event {
   position: relative;
   isolation: isolate;
-  min-height: 915px;
+  min-height: 760px;
   overflow: hidden;
-  background: url("assets/images/gallery-06.webp") center center / cover no-repeat;
+  /* gallery-09 is the close-up of the couple on the same beach, and it is
+     1600px wide against gallery-06's 800px — so full-bleed stops upscaling
+     it. The vertical anchor matters: the section is far wider than the photo
+     on a desktop screen, so `cover` crops far more off the top and bottom than
+     the sides. Anchoring at 38% instead of 50% keeps both faces clear of the
+     crop on wide screens, and has no effect on a phone, where the box is
+     taller than the photo's ratio and is cropped horizontally instead. */
+  background: url("assets/images/gallery-09.webp") center 38% / cover no-repeat;
 }
 
 .event__background {
@@ -801,14 +932,17 @@ textarea:focus-visible {
 
 .event__content {
   display: flex;
-  min-height: 915px;
+  min-height: 760px;
   flex-direction: column;
   align-items: center;
-  padding: 200px 20px;
+  padding: 130px 20px;
   color: #333;
   text-align: center;
 }
 
+/* One rule for every section title, so Save the Date, The Details, Entourage
+   and Wishes & RSVP are all set identically. They were 82-110px before, which
+   is why the page read as shouty rather than composed. */
 .event h2,
 .details h2,
 .entourage h2,
@@ -816,20 +950,30 @@ textarea:focus-visible {
   margin: 0;
   color: var(--brown);
   font-family: var(--heading-font);
-  font-size: clamp(31px, 8vw, 110px);
+  font-size: var(--fs-title);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: .02em;
 }
 
+/* The date sits directly under the Save the Date title, so at the full
+   --fs-date it was competing with it. Stepped down to 20-30px: still the
+   second-most prominent line in the section, but clearly under the title. */
 .event__datetime {
-  margin: 12px 0 5px;
+  margin: 10px 0 4px;
   color: #333;
-  font-size: clamp(19px, 5vw, 65px);
-  line-height: 1.2;
+  font-family: var(--body-font);
+  font-size: clamp(20px, 5.13vw, 26px);
+  font-weight: 500;
+  line-height: var(--lh-title);
+  letter-spacing: .04em;
 }
 
 .event__divider {
   width: 210px;
+  /* Keeps the intrinsic ratio from the width/height attributes, so the box is
+     reserved before the image loads and the monogram is never squashed. */
+  height: auto;
   max-width: 58%;
   margin: 4px auto 10px;
 }
@@ -864,8 +1008,17 @@ textarea:focus-visible {
 }
 
 .countdown strong {
-  font-size: clamp(25px, 4vw, 38px);
+  font-family: var(--countdown-font);
+  /* Bebas draws digits at 0.72em tall, almost exactly the cap height of the
+     old face, and its stems are proportionally heavier — so the size only
+     needs a nudge, not a jump, to keep the digits the same visual weight.
+     It is far more condensed (0.33em vs 0.55em per digit). */
+  font-size: clamp(28px, 4.2vw, 40px);
   font-weight: 400;
+  /* Bebas has a 1.2em content box, so 1.1 keeps the digits optically centred
+     in the tile without the extra air a 1.25 line box would add. */
+  line-height: 1.1;
+  letter-spacing: .02em;
   font-variant-numeric: tabular-nums;
   transition: transform 320ms cubic-bezier(.2, .8, .25, 1), opacity 320ms ease;
 }
@@ -877,20 +1030,23 @@ textarea:focus-visible {
   opacity: .35;
 }
 
+/* "Days / Hours / Minutes / Seconds" are tile labels, so they take the
+   caption size rather than anything larger. */
 .countdown span,
 .countdown__label {
-  font-size: clamp(10px, 4vw, 20px);
+  font-size: var(--fs-caption);
 }
 
 .countdown__label {
   margin: 20px 0 7px;
   font-family: var(--heading-font);
-  font-size: clamp(22px, 4.4vw, 40px);
+  font-size: clamp(27px, 6.92vw, 44px);
+  line-height: var(--lh-title);
   text-align: center;
 }
 
 .countdown__label strong {
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* Location — venue photograph and map */
@@ -898,7 +1054,7 @@ textarea:focus-visible {
   position: relative;
   isolation: isolate;
   display: grid;
-  min-height: clamp(980px, 105vw, 1500px);
+  min-height: clamp(620px, 64vw, 880px);
   overflow: hidden;
   place-items: center;
   color: #fff;
@@ -923,12 +1079,15 @@ textarea:focus-visible {
     linear-gradient(180deg, rgb(32 48 24 / 40%), rgb(22 34 18 / 58%));
 }
 
+/* Widened from 980px so the venue photograph can reach its native 1417px on a
+   large screen. Everything else in this section is a centred element, so the
+   wider measure costs nothing — it just stops the photo being held back. */
 .location__content {
   display: flex;
-  width: min(100%, 980px);
+  width: min(100%, 1440px);
   flex-direction: column;
   align-items: center;
-  padding: clamp(80px, 11vw, 150px) 20px;
+  padding: clamp(64px, 8vw, 110px) 20px;
   text-align: center;
 }
 
@@ -936,83 +1095,88 @@ textarea:focus-visible {
   margin: 0 0 4%;
   color: #fff;
   font-family: var(--heading-font);
-  font-size: clamp(34px, 6.5vw, 88px);
+  font-size: var(--fs-title);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: .04em;
   text-shadow: 0 2px 14px rgb(0 0 0 / 40%);
 }
 
-.location__venue {
-  margin: 0 0 5%;
-  font-size: clamp(17px, 2.6vw, 36px);
-  font-weight: 400;
-  line-height: 1.3;
-  letter-spacing: .04em;
-  text-shadow: 0 2px 10px rgb(0 0 0 / 45%);
+/* The venue's own logo replaces the typed venue line. It is a 1:1 PNG on a
+   transparent background, so it sits straight on the dark panel. Kept small:
+   the artwork already carries generous internal padding, so a larger box would
+   read as mostly empty rather than as a bigger mark. */
+.location__logo {
+  display: block;
+  width: min(100%, 150px);
+  height: auto;
+  margin: 0 auto 4%;
 }
 
-.location__venue span {
-  font-family: var(--script-font);
-  font-size: 1.35em;
-  letter-spacing: 0;
-}
-
+/* Capped at the photograph's own width, 1417px. On a wide screen that means it
+   renders 1:1 — every pixel of the original, no resampling. On anything
+   narrower `min(100%, …)` simply scales it down; it is never enlarged, so the
+   picture can never end up softer than the file it came from. */
 .location__card {
   position: relative;
-  width: min(100%, 820px);
-  margin: 0 0 7%;
-  padding: 8px;
+  width: min(100%, 1417px);
+  margin: 0 auto 6%;
+  padding: 6px;
   border: 1px solid rgb(201 185 138 / 70%);
-  border-radius: 26px;
+  border-radius: 16px;
   background: rgb(255 255 255 / 8%);
-  box-shadow: 0 20px 46px rgb(0 0 0 / 35%);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 35%);
 }
 
+/* `height: auto` with no aspect-ratio and no object-fit: the browser keeps the
+   image's intrinsic 1417x1110 ratio, so the whole frame is always visible —
+   no cropping and no squashing, at any width. */
 .location__card img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 19px;
-  object-fit: cover;
+  height: auto;
+  border-radius: 12px;
 }
 
-.location__card figcaption {
-  margin-top: 12px;
-  font-family: var(--script-font);
-  font-size: clamp(20px, 3vw, 38px);
-  line-height: 1.1;
-  text-shadow: 0 2px 8px rgb(0 0 0 / 45%);
-}
-
+/* "Maps" is a section label, not a heading — letterspaced small caps reads
+   as a wayfinding marker and stops competing with the map itself. */
 .location__maps-label {
-  margin: 0 0 3%;
-  font-family: var(--script-font);
-  font-size: clamp(24px, 4vw, 52px);
+  margin: 0 0 14px;
+  color: #dfe3d2;
+  font-family: var(--button-font);
+  font-size: var(--fs-caption);
+  letter-spacing: .22em;
   line-height: 1;
   text-shadow: 0 2px 10px rgb(0 0 0 / 45%);
+  text-transform: uppercase;
 }
 
+/* Rebalanced from 230px. That was sized against the old 410px photo; beside a
+   photo that now renders at its full 1417px, a 230px map read as a stray
+   thumbnail. 420px keeps the map clearly subordinate to the venue while still
+   looking like part of the same composition. */
 .location__map {
   display: block;
-  width: min(100%, 720px);
-  padding: 7px;
-  border-radius: 18px;
+  width: min(100%, 420px);
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 12px;
   background: rgb(255 255 255 / 12%);
-  box-shadow: 0 18px 40px rgb(0 0 0 / 32%);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 32%);
   transition: transform 250ms ease, box-shadow 250ms ease;
 }
 
 .location__map:hover,
 .location__map:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 24px 50px rgb(0 0 0 / 40%);
+  box-shadow: 0 12px 26px rgb(0 0 0 / 40%);
 }
 
 .location__map img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 12px;
+  border-radius: 8px;
   object-fit: cover;
   filter: saturate(.85) contrast(1.02);
 }
@@ -1023,7 +1187,7 @@ textarea:focus-visible {
 
 /* Details */
 .details {
-  min-height: 1320px;
+  min-height: 1180px;
 }
 
 .details__texture,
@@ -1050,7 +1214,7 @@ textarea:focus-visible {
   z-index: 3;
   width: min(100%, 980px);
   margin: 0 auto;
-  padding: 150px 20px;
+  padding: 130px 20px;
   color: #333;
   text-align: center;
 }
@@ -1064,53 +1228,105 @@ textarea:focus-visible {
 }
 
 .detail-block h3 {
-  margin: 0 0 6px;
+  max-width: 30em;
+  margin: 0 auto 8px;
   color: var(--brown);
   font-family: var(--heading-font);
-  font-size: clamp(25px, 6vw, 70px);
-  font-weight: 400;
-  line-height: 1.1;
+  font-size: var(--fs-subtitle);
+  font-weight: 500;
+  line-height: var(--lh-title);
+  text-wrap: balance;
 }
 
+/* `margin-inline: auto` is what keeps these centred. A `max-width` on a plain
+   block inside a wider centred parent does NOT centre itself — the box hugs
+   the left edge while the text centres inside it, so the line reads as shifted
+   left. The blocks here are plain blocks, not flex items, so they need the
+   auto margins explicitly. (Sections whose content box is a flex column, like
+   .story__content, centre these automatically via align-items.) */
 .detail-block p {
-  margin: 4px 0;
-  font-size: clamp(15px, 2.5vw, 34px);
-  line-height: 1.25;
+  max-width: 34em;
+  margin: 4px auto;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
+/* Sized by HEIGHT, not width. The trimmed illustration is 600x838 — a portrait
+   0.716 ratio — so a width-based box would have left it floating in dead space
+   again. The original file carried 202px of transparent padding on the left and
+   318px on the right, which is what made this look so far apart from the text
+   above and below it; the trimmed version has that padding cropped away. */
 .detail-block__attire {
-  width: 50%;
-  max-width: 500px;
-  max-height: 500px;
-  margin: 4px auto 8px;
+  height: clamp(280px, 42vh, 440px);
+  width: auto;
+  max-width: 88%;
+  margin: 6px auto 10px;
   object-fit: contain;
 }
 
+/* The rule down the middle has to be the same distance from both columns or
+   the two labels read as staggered. The grid gap alone is not enough, so the
+   right-hand column gets matching margin as well as padding. */
 .dress-grid {
   display: grid;
   width: min(100%, 900px);
   grid-template-columns: 1fr 1fr;
-  gap: clamp(20px, 5vw, 64px);
+  gap: 0;
   margin: 0 auto;
+  font-size: var(--fs-body);
+  line-height: 1.5;
 }
 
 .dress-grid p {
   margin: 0;
-  padding: 5px 0;
+  padding: 6px 0;
   text-align: right;
 }
 
 .dress-grid p + p {
   border-left: 1px solid rgb(62 78 44 / 25%);
-  padding-left: clamp(12px, 3vw, 34px);
+  margin-left: clamp(14px, 5vw, 34px);
+  padding-left: clamp(14px, 5vw, 34px);
 }
 
 .dress-grid p:last-child {
   text-align: left;
 }
 
+/* Trevenir Sans ships weight 400 only, so <strong> would fall back to a
+   synthesised bold and render smudged next to the regular line below it. The
+   label is set as small letterspaced caps instead, matching the role labels
+   elsewhere in the entourage. */
+.dress-grid strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--brown);
+  font-size: .8em;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
 .detail-block--attire {
   margin-top: 26px;
+}
+
+/* The "kindly ask" line under the ceremony time, kept in the calligraphic face
+   at the owner's request. It is the one deliberate exception to the sans-for-
+   body rule, so it is sized as a lead accent rather than as body copy: a script
+   face carries far less weight per em, and at true body size it would read as
+   smaller and weaker than the sentence it sits under. */
+.detail-block p.detail-block__arrival {
+  /* `auto` on the inline margins is essential, not decorative. This rule is more
+     specific than `.detail-block p`, so its margin shorthand replaces that one
+     outright — a `0` here would reset the horizontal margins to zero and the
+     34em box would hug the left edge while the text centres inside it. */
+  margin: 14px auto 0;
+  font-family: var(--script-font);
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  text-wrap: balance;
 }
 
 .detail-block__palette {
@@ -1120,10 +1336,10 @@ textarea:focus-visible {
 
 
 .details__note {
-  max-width: 520px;
+  max-width: 34em;
   margin: 24px auto 0;
-  font-size: clamp(15px, 2.3vw, 30px);
-  line-height: 1.3;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
   text-align: center;
 }
 
@@ -1177,7 +1393,7 @@ textarea:focus-visible {
 
 /* Entourage */
 .entourage {
-  min-height: 1180px;
+  min-height: 980px;
 }
 
 .entourage__content {
@@ -1185,50 +1401,53 @@ textarea:focus-visible {
   z-index: 3;
   width: min(100%, 1000px);
   margin: 0 auto;
-  padding: 130px 20px 140px;
+  padding: 120px 20px;
   color: #2f3a26;
   text-align: center;
 }
 
+/* The section title size is inherited from the shared h2 rule above; only the
+   extra space under it is set here. */
 .entourage h2 {
   margin-bottom: 22px;
-  font-size: clamp(30px, 6vw, 82px);
 }
 
+/* Role labels — "Parents of the Groom", "Groomsmen" — are wayfinding, so they
+   stay letterspaced small caps at the caption size. */
 .entourage h3,
 .rsvp h3 {
-  margin: 0 0 4px;
+  margin: 0 0 6px;
   color: #3e4e2c;
   font-family: var(--button-font);
-  font-size: clamp(12px, 1.5vw, 19px);
+  font-size: var(--fs-caption);
   font-weight: 400;
-  letter-spacing: .08em;
-  line-height: 1.2;
+  letter-spacing: .1em;
+  line-height: 1.3;
   text-transform: uppercase;
 }
 
+/* The names themselves — the thing guests actually scan for. */
 .entourage p {
   margin: 0;
-  font-size: clamp(14px, 1.8vw, 26px);
-  line-height: 1.28;
+  font-size: var(--fs-body);
+  line-height: var(--lh-caption);
 }
 
 .role-block {
-  margin: 0 auto 10px;
+  margin: 0 auto 14px;
 }
 
 .entourage__subheading {
   margin-top: 26px !important;
   margin-bottom: 10px !important;
   font-family: var(--button-font) !important;
-  font-size: clamp(13px, 1.5vw, 19px) !important;
+  font-size: var(--fs-caption) !important;
   letter-spacing: .18em;
   color: #3e4e2c;
   text-transform: uppercase;
 }
 
-.sponsor-columns,
-.role-columns {
+.sponsor-columns {
   display: grid;
   width: min(100%, 850px);
   grid-template-columns: 1fr 1fr;
@@ -1244,8 +1463,35 @@ textarea:focus-visible {
   text-align: left;
 }
 
+/* The paired lists are flex rather than two half-width grid tracks. With
+   `1fr 1fr` in a fixed 850px box, the short lists — Best Man / Maid of Honor
+   most of all — were pushed out to the outer edges and read as two unrelated
+   columns. Flex lets each block shrink-wrap its own content while the pair
+   stays centred as a unit, so the names meet toward the middle the way the
+   sponsor list does. `flex-wrap` keeps it honest on a very narrow phone,
+   where the two blocks stack instead of overflowing. */
 .role-columns {
-  gap: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* 24px matches .sponsor-columns, so the paired lists sit as close together as
+     the Principal Sponsors do. The two blocks shrink-wrap their own content, so
+     this gap is the whole of the space between the left and right names. */
+  gap: clamp(14px, 2.2vw, 24px);
+  max-width: 100%;
+  margin: 0 auto 10px;
+}
+
+.role-columns .role-block {
+  flex: 0 1 auto;
+  /* The `margin: 0 auto` on .role-block has to be undone here. These are flex
+     items now, and in flexbox an `auto` margin on a flex item absorbs the free
+     space in preference to `justify-content` — so those two auto margins were
+     swallowing the spare width and shoving Best Man and Maid of Honor out to
+     the outer edges of the column. It looked fine on a phone, where there is
+     almost no free space to absorb, and badly wrong on a desktop, where there
+     are ~600px of it. This is what was really pushing the two columns apart. */
+  margin: 0 0 14px;
 }
 
 .role-columns .role-block:first-child {
@@ -1315,17 +1561,23 @@ textarea:focus-visible {
   padding: 0 0 15px;
 }
 
+/* Guest messages are free text and often long, so they get real line height
+   and a bounded measure — the wall is a scroll area, not a poster. */
 .wish p {
-  margin: 0 0 7px;
+  max-width: 36em;
+  margin: 0 auto 8px;
   white-space: pre-line;
-  font-size: clamp(16px, 4.5vw, 30px);
-  line-height: 1.22;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
+/* The sender's name, in the serif at subtitle size so it closes each message. */
 .wish strong {
   font-family: var(--heading-font);
-  font-size: clamp(14px, 3vw, 23px);
-  font-weight: 400;
+  font-size: var(--fs-subtitle);
+  font-weight: 500;
+  line-height: var(--lh-title);
 }
 
 .wish + .wish {
@@ -1362,8 +1614,8 @@ textarea:focus-visible {
 
 .motif-colors span {
   font-family: var(--button-font);
-  font-size: clamp(9px, 2.4vw, 13px);
-  letter-spacing: .06em;
+  font-size: 11px;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 
@@ -1377,8 +1629,9 @@ textarea:focus-visible {
   margin: 0;
   padding: 30px 10px;
   font-family: var(--script-font);
-  font-size: clamp(20px, 5vw, 34px);
-  line-height: 1.3;
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: var(--lh-body);
   opacity: .92;
 }
 
@@ -1477,7 +1730,7 @@ textarea:focus-visible {
 
 /* RSVP */
 .rsvp {
-  min-height: 900px;
+  min-height: 820px;
 }
 
 .rsvp__content {
@@ -1485,33 +1738,39 @@ textarea:focus-visible {
   z-index: 3;
   width: min(100%, 860px);
   margin: 0 auto;
-  padding: 120px 20px 180px;
+  padding: 120px 20px 140px;
   color: #333;
 }
 
+/* Only the centring is local; the size comes from the shared h2 rule. */
 .rsvp h2 {
   margin-bottom: 16px;
-  font-size: clamp(30px, 6vw, 82px);
   text-align: center;
 }
 
 .rsvp__intro {
-  margin: 0 0 22px;
-  font-size: clamp(15px, 1.9vw, 25px);
-  line-height: 1.45;
+  max-width: 36em;
+  margin: 0 auto 26px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
 .rsvp form {
   width: min(100%, 560px);
 }
 
+/* Form labels are small and letterspaced so they read as field captions
+   rather than competing with the input text below them. */
 .rsvp label {
   display: block;
-  margin: 16px 0 6px;
-  font-size: clamp(14px, 1.6vw, 20px);
+  margin: 18px 0 6px;
+  color: #4a5540;
+  font-size: var(--fs-caption);
   font-weight: 500;
-  letter-spacing: .01em;
-  line-height: 1.2;
+  letter-spacing: .08em;
+  line-height: 1.3;
+  text-transform: uppercase;
 }
 
 .rsvp input,
@@ -1573,7 +1832,7 @@ textarea:focus-visible {
   position: relative;
   isolation: isolate;
   display: grid;
-  min-height: 735px;
+  min-height: 620px;
   overflow: hidden;
   place-items: center;
   color: #fff;
@@ -1598,31 +1857,50 @@ textarea:focus-visible {
     linear-gradient(180deg, rgb(32 48 24 / 50%), rgb(20 32 16 / 62%));
 }
 
+/* The bottom padding here is not decorative. This is the last block on the
+   page, so its entrance animation is the one most at risk of never firing:
+     - the observer pulls its trigger line up by 120px (js/aos.js DEFAULTS.offset)
+     - [data-aos="zoom-in-up"] starts at translate3d(0, 100px, 0), so the
+       element's pre-animation box sits 100px lower than its laid-out position
+   Below the names there is only this padding and the 130px footer, so without
+   roughly offset + transform to spare, the names can never cross the trigger
+   line and stay at opacity 0. 200px leaves ~110px of clearance.
+   The extra space is not wasted: the section is a full-bleed photo and this
+   simply lifts the block toward the optical centre. */
 .closing__content {
   width: min(100%, 880px);
-  padding: 80px 20px;
+  padding: 80px 20px 200px;
   text-align: center;
   text-shadow: 0 2px 14px rgb(0 0 0 / 70%), 0 1px 3px rgb(0 0 0 / 50%);
 }
 
 .closing__content p {
-  margin: 0 0 26px;
-  font-size: clamp(17px, 2.4vw, 32px);
-  line-height: 1.45;
+  max-width: 32em;
+  margin: 0 auto 30px;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
+/* "With Love," is a sign-off, so it is a letterspaced caption rather than a
+   line of copy. */
 .closing__content span {
   display: block;
-  margin-bottom: 4px;
-  font-size: clamp(16px, 2vw, 26px);
+  margin-bottom: 10px;
+  font-size: var(--fs-caption);
+  letter-spacing: .2em;
+  text-transform: uppercase;
 }
 
+/* The names close the page at the same display size they open it. */
 .closing__content h2 {
   margin: 0;
   font-family: var(--cover-font);
-  font-size: clamp(27px, 7vw, 110px);
+  font-size: var(--fs-display);
   font-weight: 400;
-  line-height: 1;
+  line-height: var(--lh-display);
+  letter-spacing: .01em;
+  text-wrap: balance;
 }
 
 /* Footer and music */
@@ -1941,7 +2219,8 @@ textarea:focus-visible {
 
 /* Save the Date section */
 .event__background {
-  background: url("assets/images/gallery-06.webp") center / cover no-repeat;
+  /* Same photo and anchor as .event above, which carries the reasoning. */
+  background: url("assets/images/gallery-09.webp") center 38% / cover no-repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 var(--seam-fade), #000 calc(100% - var(--seam-fade)), transparent 100%);
 }
@@ -2083,31 +2362,53 @@ textarea:focus-visible {
 
 /* Tablet */
 @media (max-width: 900px) {
-  .story__content { padding-top: 150px; }
-  .event__content { min-height: 915px; }
+  .story__content { padding-top: 118px; }
+  .event__content { min-height: 760px; }
   .details__content { padding-top: 140px; }
   .entourage__content { padding-top: 125px; }
   .rsvp__content { padding-top: 115px; }
+}
+
+/* Short viewports — a laptop with browser chrome open, or a phone held
+   sideways — cannot fit the greeting, the note and a full-size envelope at
+   once. The welcome panel is `position: fixed` with `overflow: hidden` and its
+   content is optically centred, so anything too tall is clipped evenly off the
+   top and bottom, taking the greeting or the call to action with it. Stepping
+   the type and the envelope down here keeps the whole panel on screen.
+
+   Placed before the width breakpoints so those still win on a small screen. */
+@media (max-height: 820px) {
+  .welcome h1 { font-size: clamp(26px, 4.6vw, 46px); }
+  .welcome__message { font-size: clamp(13px, 1.7vw, 17px); line-height: 1.5; margin-bottom: 16px; }
+  .welcome__envelope { width: min(84vw, 560px); }
 }
 
 /* Mobile */
 @media (max-width: 640px) {
   body { font-size: 15px; }
 
+  /* Almost no font-size overrides live in this block any more. Every step of
+     the scale is a clamp() with a 320px floor, so the type reaches phone sizes
+     on its own — hard-coding sizes here is what let the hierarchy drift apart
+     in the first place. What is left is layout: frames, gutters, grids, and
+     the few places where a desktop relationship genuinely breaks. */
+
   .welcome__content {
     width: min(96vw, 520px);
   }
 
-  .welcome__script { font-size: clamp(21px, 5.8vw, 32px); }
   .welcome__envelope { width: min(90vw, 380px); }
-  .welcome__tap { font-size: clamp(18px, 5vw, 26px); margin-top: 4px; }
-  .welcome__seats { margin-bottom: 10px; }
-  .welcome h1 { width: 100%; min-width: 0; max-width: 100%; font-size: clamp(23px, 6.6vw, 32px); overflow-wrap: anywhere; word-break: break-word; }
+  .welcome__tap { font-size: clamp(17px, 4.6vw, 24px); margin-top: 4px; }
+  .welcome__message { gap: 7px; margin-bottom: 16px; }
+  .welcome h1 { width: 100%; min-width: 0; max-width: 100%; }
 
   .hero__content { top: 58px; right: 6px; left: 6px; }
-  .hero__eyebrow { font-size: clamp(18px, 5.8vw, 25px); white-space: nowrap; }
-  .hero__names { margin-top: 7px; font-size: clamp(42px, 11vw, 58px); }
-  .hero__date { margin-top: 4px; font-size: clamp(20px, 5.8vw, 27px); white-space: nowrap; }
+  .hero__names { margin-top: 4px; }
+  .hero__date { margin-top: 4px; }
+  /* On a phone the monogram moves to the right-hand side instead of centred.
+     The explicit right margin keeps it off the screen edge — `margin-right: 0`
+     would let it sit flush against the bezel. */
+  .hero__monogram { margin: 96px clamp(14px, 5vw, 28px) 0 auto; }
   .hero__scroll { bottom: 22px; font-size: 13px; }
 
   .section-ornament--top { top: -1px; }
@@ -2119,49 +2420,70 @@ textarea:focus-visible {
 
   .story { min-height: 0; }
   .story__frame { top: 42px; right: 12px; bottom: 42px; left: 12px; border-width: 3px; border-radius: 130px; }
-  .story__content { padding: 132px 15px 120px; }
-  .story__intro { margin-bottom: 19px; font-size: clamp(15px, 4.2vw, 19px); }
-  .person-card h3 { font-size: clamp(26px, 8.2vw, 38px); }
-  .person-card p { font-size: clamp(14px, 3.9vw, 17px); }
-  .story__amp { margin: 10px 0; font-size: 30px; }
+  .story__content { padding: 108px 15px 88px; }
+  .story__intro { margin-bottom: 19px; }
+  .story__amp { margin: 10px 0; }
 
-  .event { min-height: 915px; }
+  .event { min-height: 0; }
   .event__frame--outer { top: 28px; right: 8px; bottom: 28px; left: 8px; border-radius: 150px; }
   .event__frame--inner { top: 38px; right: 16px; bottom: 38px; left: 16px; border-radius: 150px; }
-  .event__content { min-height: 0; padding: 200px 15px; }
-  .event h2 { font-size: clamp(29px, 8.5vw, 42px); }
-  .event__datetime { margin-top: 9px; font-size: clamp(18px, 5.2vw, 25px); }
+  .event__content { min-height: 0; padding: 120px 15px; }
   .event__divider { width: 170px; }
   .button--outline { min-width: 190px; min-height: 44px; font-size: 13px; }
-  .countdown { gap: 7px; margin-top: 28px; }
+  .countdown { gap: 7px; margin-top: 24px; }
   .countdown > div { min-height: 70px; padding-inline: 2px; }
-  .countdown strong { font-size: 25px; }
-  .countdown span { margin-top: -2px; font-size: 15px; }
-  .countdown__label { font-size: 20px; }
+  .countdown strong { font-size: clamp(26px, 6.8vw, 31px); }
+  .countdown span { margin-top: -2px; }
+
   .location { min-height: 0; }
-  .location__content { width: calc(100% - 30px); padding: 90px 0 80px; }
-  .location__venue { font-size: 16px; }
-  .location__card { padding: 6px; border-radius: 20px; }
-  .location__card img { border-radius: 15px; }
-  .location__maps-label { font-size: 34px; }
-  .location__map { padding: 5px; }
+  .location__content { width: calc(100% - 30px); padding: 64px 0 56px; }
+  .location__logo { width: min(100%, 120px); margin-bottom: 4%; }
+  .location__card { padding: 5px; border-radius: 14px; }
+  .location__card img { border-radius: 10px; }
+  .location__maps-label { margin-bottom: 10px; }
+  .location__map { padding: 4px; }
 
   .details { min-height: 0; }
   .details__texture,
   .rsvp__texture,
   .entourage__texture { top: 42px; right: 12px; bottom: 42px; left: 12px; }
-  .details__content { padding: 150px 15px; }
-  .details h2 { margin-bottom: 16px; font-size: clamp(29px, 8.5vw, 42px); }
-  .detail-block { margin-bottom: 17px; }
-  .detail-block h3 { font-size: clamp(23px, 6.6vw, 32px); }
-  .detail-block p { font-size: 16px; }
-  .detail-block__attire { width: 50%; max-height: none; }
-  .dress-grid { gap: 8px; }
-  .dress-grid p { font-size: clamp(14px, 3.8vw, 18px); }
-  .detail-block--attire { margin-top: 19px; }
+  /* The top padding was 132px, but the floral ornament is only 58px tall at
+     this width (clamp(58px, 9vw, 124px) floors at 58 below ~690px), so 132px
+     left roughly 70px of dead space above the heading. */
+  .details__content { padding: 84px 15px 72px; }
+  .details h2 { margin-bottom: 14px; }
+  .detail-block { margin-bottom: 14px; }
+  .detail-block h3 { margin-bottom: 6px; }
+  .detail-block p { margin: 2px auto; }
+  /* The dresscode illustration was rendering at 50% of the column, which on a
+     390px phone is 180px wide — far too small to read the embroidery, and it
+     left the block looking sparse. */
+  .detail-block__attire { height: clamp(260px, 40vh, 360px); margin: 4px auto 8px; }
+  /* Two columns either side of a rule do not survive a phone: at 360px each
+     column is under 150px, so "Barong Tagalog" wraps and the two sides end up
+     different heights and never line up. Stacked and centred, both read the
+     same and there is nothing to misalign. */
+  .dress-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .dress-grid p,
+  .dress-grid p + p,
+  .dress-grid p:last-child {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    text-align: center;
+  }
+  .detail-block--attire { margin-top: 16px; }
   .detail-block__palette { width: 80%; }
 
-  .details__note { margin-top: 15px; font-size: 15px; }
+  .details__note { margin-top: 12px; }
 
   .gallery { padding: 5px; }
   .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 146px; gap: 2px; }
@@ -2172,57 +2494,60 @@ textarea:focus-visible {
 
 
   .entourage__content { padding: 120px 15px; }
-  .entourage h2 { margin-bottom: 16px; font-size: clamp(29px, 8.5vw, 42px); }
-  .entourage p { font-size: 17px; }
-  .entourage__subheading { font-size: 14px !important; }
-  .sponsor-columns,
-  .role-columns { gap: 10px; }
+  .entourage h2 { margin-bottom: 16px; }
+  /* .role-columns is not listed here on purpose: its gap is now a clamp() that
+     already floors at 16px, and a hard 10px would crowd the two blocks into
+     each other on a phone. Only the sponsor grid, which is still 1fr 1fr, is
+     tightened here. */
+  .sponsor-columns { gap: 10px; }
   .role-block { margin-bottom: 7px; }
+
+  /* The paired lists cannot all sit side by side on a phone. Measured at 390px
+     with 16px text and a 14px gap: Best Man / Maid of Honor needs ~406px and
+     Groomsmen / Bridesmaids ~358px against 360px available, so one wraps and
+     the others do not. That mixed result is what read as misaligned — when a
+     pair wraps, the right|left alignment still applies, but the two halves are
+     then on separate lines. Stacking all three and centring them makes the
+     behaviour uniform, and on a narrow screen it is the easier layout to read
+     anyway. */
+  .role-columns {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .role-columns .role-block:first-child,
+  .role-columns .role-block:last-child {
+    text-align: center;
+  }
 
   .wishes { min-height: 650px; }
   .wishes__frame { top: 40px; right: 12px; bottom: 40px; left: 12px; }
   .wishes__content { min-height: 650px; padding: 40px 12px; }
   .wishes__scroll { height: 530px; padding: 12px 10px; }
-  .wish p { font-size: clamp(16px, 4.4vw, 20px); }
-  .wish strong { font-size: 14px; }
 
 
   .rsvp__content { padding: 110px 15px 130px; }
-  .rsvp h2 { font-size: clamp(29px, 8.5vw, 42px); }
-  .rsvp__intro { font-size: 15px; }
-  .rsvp label { font-size: 15px; }
   .rsvp input,
   .rsvp select,
   .rsvp textarea { font-size: 16px; }
 
-  .closing { min-height: 734px; }
-  .closing__content { padding: 60px 20px; }
-  .closing__content p { font-size: clamp(16px, 4.2vw, 19px); }
-  .closing__content span { font-size: 17px; }
-  .closing__content h2 { font-size: 7vw; }
+  .closing { min-height: 0; }
+  .closing__content { padding: 60px 20px 180px; }
 
   .site-footer { min-height: 130px; font-size: 11px; }
   .music-toggle { right: 18px; bottom: max(80px, calc(65px + env(safe-area-inset-bottom))); width: 40px; height: 40px; }
   .music-toggle img { width: 34px; height: 34px; }
 }
 
+/* At 320-380px the clamp floors are already doing the work, so this block only
+   tightens what is genuinely tight: the four-up countdown and the entouage
+   columns. */
 @media (max-width: 380px) {
-  .hero__eyebrow { font-size: 17px; }
-  .hero__names { font-size: 40px; }
-  .hero__date { font-size: 20px; }
-  .story__intro { font-size: 14px; }
-  .person-card h3 { font-size: 27px; }
-  .person-card p { font-size: 13px; }
-  .event h2,
-  .details h2,
-  .entourage h2,
-  .rsvp h2 { font-size: 28px; }
   .countdown { gap: 3px; }
   .countdown > div { min-height: 64px; }
-  .countdown strong { font-size: 22px; }
-  .countdown span { font-size: 14px; }
-  .entourage p { font-size: 14px; }
-  .wish p { font-size: 15px; }
+  .countdown strong { font-size: clamp(23px, 5.9vw, 26px); }
+  .sponsor-columns { gap: 6px; }
 }
 
 /* The reference keeps the original 12-column justified mosaic on phones
@@ -2290,13 +2615,16 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
+/* The admin page follows the same heading scale as the invitation, but its
+   tables, badges and form controls keep their small utilitarian sizes — a data
+   grid should not be set at invitation scale. */
 .admin-header h1 {
   margin: 0;
   color: #3e4e2c;
   font-family: var(--heading-font);
-  font-size: clamp(32px, 5vw, 58px);
+  font-size: var(--fs-title);
   font-weight: 400;
-  line-height: 1;
+  line-height: var(--lh-title);
 }
 
 .admin-preview-link,
@@ -2342,8 +2670,9 @@ textarea:focus-visible {
   margin: 0 0 6px;
   color: #3e4e2c;
   font-family: var(--heading-font);
-  font-size: clamp(24px, 3.4vw, 38px);
+  font-size: var(--fs-subtitle);
   font-weight: 400;
+  line-height: var(--lh-title);
 }
 
 .admin-card p {

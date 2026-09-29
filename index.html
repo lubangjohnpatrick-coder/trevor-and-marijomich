@@ -10,6 +10,7 @@
   <link rel="preload" href="assets/fonts/script.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/fonts/cover-script.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/fonts/sans.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="assets/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/aos.css">
 </head>
@@ -30,9 +31,14 @@
     <div class="welcome__shade" aria-hidden="true"></div>
     <div class="welcome__content">
       <!-- the guest is greeted first, above the envelope -->
-      <p class="welcome__dear anim-in" style="--in-delay:120ms">Dear,</p>
-      <h1 class="anim-in" id="welcome-title" style="--in-delay:200ms">Invited Person</h1>
-      <p class="welcome__seats anim-in" id="welcome-seats" style="--in-delay:290ms">( We have reserved 2 seats for you )</p>
+      <h1 class="anim-in" id="welcome-title" style="--in-delay:120ms"><span class="welcome__greeting-lead">Dear</span> <span id="welcome-name">Invited Person</span>,</h1>
+
+      <div class="welcome__message anim-in" style="--in-delay:230ms">
+        <p class="welcome__seats" id="welcome-seats">We have reserved <b>2 seats</b> especially for you.</p>
+        <p class="welcome__invite">We warmly invite you to join us in celebrating love, family, and togetherness.</p>
+        <p class="welcome__honor">It would be our great honor to have you share this meaningful occasion with us.</p>
+      </div>
+
       <p class="welcome__note anim-in" id="welcome-note" hidden>This invitation is no longer active.</p>
 
       <!-- The whole envelope is the button: clicking it opens the invitation -->
@@ -61,10 +67,7 @@
         </span>
       </button>
 
-      <p class="welcome__script anim-in" style="--in-delay:820ms">Join us for a Special<br>Celebration</p>
-
-      <!-- the reference uses this line as the invitation's call to action -->
-      <button class="welcome__tap anim-in" style="--in-delay:950ms" type="button" data-open-invitation>Click to Open...</button>
+      <button class="welcome__tap anim-in" style="--in-delay:900ms" type="button" data-open-invitation>Click to Open the Invitation.</button>
     </div>
   </div>
 
@@ -77,9 +80,16 @@
       <div class="hero__background" aria-hidden="true"></div>
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="hero__content">
-        <p class="hero__eyebrow" data-aos="fade-up" data-aos-duration="1000">Save the date</p>
         <h1 id="hero-title" class="hero__names" data-aos="zoom-in" data-aos-delay="200" data-aos-easing="ease-out-back">Trevor <span>&amp;</span> Marijomich</h1>
         <p class="hero__date" data-aos="zoom-out" data-aos-delay="400"><time datetime="2027-01-04">04 . 01 . 2027</time></p>
+
+        <!-- The monogram closes the opening block: names, then the date, then
+             the T&M mark. It is a PNG on a transparent background, so it sits
+             straight on the photograph. No loading="lazy" here — this is above
+             the fold and is the first thing on the page. -->
+        <figure class="hero__monogram" data-aos="zoom-in" data-aos-delay="600" data-aos-easing="ease-out-back">
+          <img src="assets/images/event-monogram.png" width="480" height="353" alt="The T and M monogram of Trevor and Marijomich" decoding="async">
+        </figure>
       </div>
       <a class="hero__scroll" href="#story" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1200"><span>Swipe Up</span><i aria-hidden="true">&#9651;</i></a>
     </section>
@@ -97,23 +107,18 @@
       <div class="story__content">
         <h2 id="story-title" class="sr-only">Our invitation</h2>
         <p class="story__intro" data-aos="zoom-out-up">
-          Together with our families, we joyfully invite you<br>
-          to join us as we say our vows and celebrate<br>
-          the beginning of our forever.<br><br>
-          By the grace of God &amp; with the love of our family,<br>
-          we gladly welcome you to our wedding day.
+          With love in our hearts and God as our guide, we invite you to celebrate with us as we exchange our vows
+and begin our forever together.
         </p>
 
         <article class="person-card" data-aos="zoom-out-left" data-aos-delay="150">
           <h3>Trevor George White</h3>
-          <p>Son of<br>Mr. Peter White<br>Mrs. Sharon White</p>
         </article>
 
         <div class="story__amp" data-aos="zoom-in" data-aos-delay="300" aria-hidden="true">&amp;</div>
 
         <article class="person-card" data-aos="zoom-out-right" data-aos-delay="450">
           <h3>Marijomich Denniece Torres</h3>
-          <p>Daughter of<br>Mr. Allan Mucsin<br>Mrs. Hilda Guillermo</p>
         </article>
       </div>
     </section>
@@ -128,9 +133,9 @@
         <h2 id="event-title" data-aos="zoom-out-down">Save the Date</h2>
         <p class="event__datetime" data-aos="zoom-in-up" data-aos-delay="200">
           <strong>Monday, 04 January 2027</strong><br>
-          <strong>04:00 PM</strong>
+          <strong>03:30 PM</strong>
         </p>
-        <img class="event__divider" src="assets/images/hero-rings.svg" data-aos="zoom-in" data-aos-delay="400" alt="">
+        <img class="event__divider" src="assets/images/event-monogram.png" width="480" height="353" data-aos="zoom-in" data-aos-delay="400" alt="">
 
         <p class="countdown__label" data-aos="fade-up" data-aos-delay="300">Countdown to <strong>our Wedding</strong></p>
         <div class="countdown" aria-label="Countdown to the wedding day">
@@ -153,14 +158,14 @@
 
       <div class="location__content">
         <h2 id="location-title" data-aos="zoom-out-down">Location</h2>
-        <p class="location__venue" data-aos="zoom-out-up" data-aos-delay="150">
-          <strong>Hacienda Solange Indang</strong><br>
-          <span>@ EMV Flower Farm</span>
-        </p>
+
+        <!-- The venue's own logo carries the name, so the typed venue line and
+             the "EMV Flower Farm" line are both gone. The Google Maps links
+             below keep the query so the button still resolves. -->
+        <img class="location__logo" src="assets/images/Venue-Logo.png" width="500" height="500" alt="Hacienda Solange Indang" loading="lazy" decoding="async" data-aos="zoom-out-up" data-aos-delay="150">
 
         <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back">
-          <picture><source srcset="assets/images/venue.webp" type="image/webp"><img src="assets/images/venue.jpg" alt="Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
-          <figcaption>Dream it, we make it happen</figcaption>
+          <img src="assets/images/venue.jpg" width="1417" height="1110" alt="The wooden halls at Hacienda Solange Indang reflected in the lake" loading="lazy" decoding="async">
         </figure>
 
         <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400">Maps</p>
@@ -168,7 +173,7 @@
           <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
-        <a class="button button--outline" data-aos="zoom-in-up" data-aos-delay="650" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
+        <a class="button button--outline" data-aos="zoom-in-up" data-aos-delay="650" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener">
           <span aria-hidden="true">&#128506;</span> Open GMAPS
         </a>
       </div>
@@ -186,28 +191,27 @@
 
       <div class="details__content">
         <h2 id="details-title" data-aos="zoom-out-down">The Details</h2>
-
-        <div class="detail-block" data-aos="zoom-out-up">
-          <h3>Dresscode</h3>
-          <picture><source srcset="assets/images/dresscode.webp" type="image/webp"><img class="detail-block__attire" src="assets/images/dresscode.png" alt="Suggested attire for the wedding" loading="lazy" decoding="async"></picture>
-          <div class="dress-grid">
-            <p data-aos="fade-right" data-aos-delay="200"><strong>For Women</strong><br>Filipiniana</p>
-            <p data-aos="fade-left" data-aos-delay="300"><strong>For Men:</strong><br>Barong Tagalog</p>
-          </div>
-        </div>
-
+        
         <div class="detail-block detail-block--attire" data-aos="zoom-out-up" data-aos-delay="200">
-          <h3>Attire Guide</h3>
-          <p>
-            Please welcome in your <strong>Filipiniana or Barong Tagalog Attire</strong><br>
+          <h3>The ceremony will commence promptly at 3:30 pm</h3>
+          <p class="detail-block__arrival">
+            We kindly ask our guests to arrive on time and be seated before the ceremony begins<br>
           </p>
         </div>
 
-        <p class="details__note" data-aos="fade-up" data-aos-delay="250">
-          <strong>Note:</strong><br>
-          The ceremony will commence at 4:00 PM.<br>
-          Please be on time.
-        </p>
+
+        <div class="detail-block" data-aos="zoom-out-up">
+          <h3>In celebration of our Filipino heritage, we warmly invite everyone to come dressed in traditional Filipino attire</h3>
+          <!-- Plain <img>, no <picture>: every modern browser supports WebP, so
+               the <source> for the older dresscode.webp always won and this PNG
+               was never actually downloaded. It is the current artwork, and it
+               has a genuine transparent background. -->
+          <img class="detail-block__attire" src="assets/images/dresscode-trimmed.png" width="600" height="838" alt="The couple in Filipiniana and Barong Tagalog attire" loading="lazy" decoding="async">
+          <div class="dress-grid">
+            <p data-aos="fade-right" data-aos-delay="200"><strong>For Women</strong>Filipiniana</p>
+            <p data-aos="fade-left" data-aos-delay="300"><strong>For Men</strong>Barong Tagalog</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -251,8 +255,8 @@
 
         <h3 class="entourage__subheading" data-aos="fade-up" data-aos-delay="300">Principal Sponsors</h3>
         <div class="sponsor-columns">
-          <p data-aos="zoom-out-left" data-aos-delay="350">Ariel Torres<br>Leonardo Gozo<br>Robert Williams<br>Charles Leonard Gozo<br>Mike Cervantes</p>
-          <p data-aos="zoom-out-right" data-aos-delay="450">JR Sarmiento<br>Eduardo Cruzado Jr.<br>Joy Torres Calasin<br>Dr. Charito Gozo<br>Rosalina Williams</p>
+          <p data-aos="zoom-out-left" data-aos-delay="350">Ariel Torres<br>Leonardo Gozo<br>Robert Williams<br>Charles Leonard Gozo<br>Mike Cervantes<br>Jose Rene Sarmiento<br>Eduardo Cruzado Jr.</p>
+          <p data-aos="zoom-out-right" data-aos-delay="450">Joy Torres Calasin<br>Dr. Charito Gozo<br>Rosalina Williams<br>Anna Krisela Gozo<br>Lourdes Bard<br>Gloria Alayan<br>Anna Mychelle Cruzado</p>
         </div>
 
         <div class="role-columns">
@@ -263,21 +267,21 @@
         <div class="role-columns">
           <div class="role-block" data-aos="zoom-out-left" data-aos-delay="200">
             <h3>Groomsmen</h3>
-            <p>Charles Lawrence Gozo<br>Jude Sagum<br>Mark Anthony Hernandez<br>Nicky Bryan Rivera<br>Rieze Andrei</p>
+            <p>Charles Lawrence Gozo<br>Jude Sagum<br>Mark Anthony Hernandez<br>Nicky Bryan Rivera<br>Rieze Andrei Venzon<br>Jethron Angelico Calayan</p>
           </div>
           <div class="role-block" data-aos="zoom-out-right" data-aos-delay="300">
             <h3>Bridesmaids</h3>
-            <p>Anna Krisela Gozo<br>Ria Ianer Gozo<br>Aimee Soto<br>Cheska Gamo<br>Ely Mavel</p>
+            <p>Ria Ianer Gozo<br>Aimee Soto<br>Cheska Gamo<br>Joram Ameron David<br>Ely Mavel<br>Bernadette Vhon Rivera</p>
           </div>
         </div>
 
         <h3 class="entourage__subheading" data-aos="fade-up" data-aos-delay="300">Our Little Entourage</h3>
         <div class="role-columns">
           <div class="role-block" data-aos="zoom-out-left" data-aos-delay="200">
-            <p>Carlito Antonio Gozo<br>Carlos Alonzo Gozo<br>JM Hernandez<br>Juan Sebastian Gozo</p>
+            <p>Carlito Antonio Gozo<br>Carlos Alonzo Gozo<br>Jomar Matthew Hernandez<br>Juan Sebastian Gozo<br>Jaden Luke Torres</p>
           </div>
           <div class="role-block" data-aos="zoom-out-right" data-aos-delay="300">
-            <p>Jaden Torres<br>Chloe Torres<br>Sittie Lantud<br>Skylar Summer Gozo<br>Zoey Alessandria Gozo</p>
+            <p>Anne Chloe Torres<br>Sittie Valerie Lantud<br>Skylar Summer Gozo<br>Anaya Therese Dalisay<br>Zoey Alessandria Gozo</p>
           </div>
         </div>
       </div>
@@ -363,20 +367,27 @@
     <section class="closing" aria-label="Trevor and Marijomich, together forever">
       <div class="closing__background" aria-hidden="true"></div>
       <div class="closing__shade" aria-hidden="true"></div>
+      <!-- The closing block is the last thing on the page, so its animations
+           are marked once: the AOS default (once=false) removes the animation
+           class when an element scrolls back out of view, which can leave the
+           names and the sign-off blank after they have already appeared. -->
       <div class="closing__content">
-        <p data-aos="zoom-out-up">
-          As we begin this new chapter, we are so thankful for the love and
-          support of the people around us. We would love to share this joy
-          with you in person. Your presence means everything to us.
+        <p data-aos="zoom-out-up" data-aos-once="true">
+          Two hearts, two cultures, two journey, coming together as one.
+          <br><br>As we begin this beautiful new chapter, we are grateful for the love that brought us together and for the families who have shaped who we are.
+          <br><br>From Australia to the Philippines, two different backgrounds become one shared journey, united by love, family, and the promise of forever.
+          <br><br>We would be honored to have you with us as we celebrate this special moment and witness the beginning of our life together.
+          <br><br>Your presence will make our celebration even more meaningful.
+ 
         </p>
-        <span data-aos="fade-up" data-aos-delay="200">With Love,</span>
-        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back">Trevor &amp; Marijomich</h2>
+        <span data-aos="fade-up" data-aos-delay="200" data-aos-once="true">With Love,</span>
+        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back" data-aos-once="true">Trevor &amp; Marijomich</h2>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p data-aos="fade-up">Trevor &amp; Marijomich &middot; 04 . 01 . 2027 &middot; Hacienda Solange Indang</p>
+    <p data-aos="fade-up" data-aos-once="true">Trevor &amp; Marijomich &middot; 04 . 01 . 2027 &middot; Hacienda Solange Indang</p>
   </footer>
 
   <!-- Music: the button appears only once a track is set in js/config.js -->

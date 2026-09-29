@@ -33,7 +33,8 @@ trevor-and-marijomich/
 │   └── schema.sql             tables + security rules
 └── assets/
     ├── images/                all photos and illustrations
-    └── fonts/                 script.woff, cover-script.woff, sans.woff
+    └── fonts/                 script.woff, cover-script.woff, sans.woff,
+                              bebas-neue.woff2
 ```
 
 **Live site:** <https://renelgallardo-a11y.github.io/trevor-and-marijomich/>
@@ -151,3 +152,32 @@ authenticated account is used instead and this value is ignored.
 * **No third-party libraries** — the scroll animations, lightbox, petals and
   loading bar are all written from scratch, so nothing can fail to load.
 * **Reduced motion** is respected throughout.
+
+## Typography
+
+Every size lives in one place — the `--fs-*` and `--lh-*` custom properties at
+the top of `styles.css`. Nothing else declares a `font-size`, apart from the
+countdown digits and a handful of small UI labels. Each step is a `clamp()`
+whose first argument is the floor on a 320px phone, middle is a `vw` slope, and
+last is the desktop ceiling, so the hierarchy holds from a small phone to a
+large monitor without per-breakpoint overrides.
+
+| Step | Desktop | Set in |
+| --- | --- | --- |
+| The couple's names | 84px | Trevenir Cover |
+| Section titles | 52px | Trevenir Script |
+| Sub-headings | 34px | Trevenir Script |
+| The wedding date | 40px | Trevenir Sans |
+| Lead paragraphs | 20px | Trevenir Sans |
+| Body text | 16–18px | Trevenir Sans |
+| Captions and details | 14–16px | Trevenir Sans |
+| Countdown digits | — | Bebas Neue |
+
+The display steps are large on purpose. A calligraphic face has a small
+x-height inside its em box, so it needs more nominal size than a plain serif
+would to carry the same presence — these were 122px and 110px before the scale
+existed, and shrinking them much below that made the page read as thin rather
+than refined.
+
+To retune the whole site, change those eight variables. If you need a new
+step, add it there rather than hard-coding a size on a selector.
