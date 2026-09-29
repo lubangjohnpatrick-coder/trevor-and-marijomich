@@ -12,16 +12,19 @@
      data-aos-duration     ms the animation takes        (default 1200)
      data-aos-offset       how far into the viewport the
                            element must travel, in px    (default 120)
-     data-aos-once         "true" to stay animated for good,
-                           "false" (the default) to replay
-                           every time the element scrolls back in
+     data-aos-once         "true" (the default) to stay animated
+                           for good, "false" to replay every
+                           time the element scrolls back in
      data-aos-easing       a transition timing curve; see
                            css/aos.css for the names
 
-   Replaying: by default an element animates in, and the class is removed
-   again as it leaves the viewport. Scrolling back up therefore replays the
-   entrance instead of leaving the element sitting in its final state.
-   Put data-aos-once="true" on a heading you would rather not see repeat.
+   Sticking: an element animates in once and then keeps its final state. Replay
+   is the trap this default exists to avoid. An effect starts at opacity 0 and
+   only the observer's .aos-animate class brings it back, so a section taller
+   than the viewport has its contents re-hidden the moment they scroll past the
+   top, then re-shown on the way back down. On a long section that reads as
+   content simply vanishing. Once an element has appeared it stays. Opt back
+   into replaying per element with data-aos-once="false".
 
    Exposed on window so the page can re-measure after fonts or images land:
      AOS.refresh()
@@ -30,11 +33,15 @@
 (function () {
   'use strict';
 
+  /* `once: true` is the load-bearing one. Every effect starts at opacity 0 and
+     only .aos-animate brings it back, so with once:false a section taller than
+     the viewport keeps re-hiding its own contents as they scroll past the top
+     -- which looks exactly like text that has gone missing. */
   const DEFAULTS = {
     duration: 1200,
     delay: 0,
     offset: 120,
-    once: false,
+    once: true,
     easing: null
   };
 

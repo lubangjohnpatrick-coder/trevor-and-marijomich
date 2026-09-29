@@ -59,9 +59,12 @@ window.SITE_CONFIG = {
   wedding: {
     groom: 'Trevor George White',
     bride: 'Marijomich Denniece Torres',
-    /* 4:00 PM Philippine time on 4 January 2027 */
-    startISO: '2027-01-04T16:00:00+08:00',
-    endISO: '2027-01-04T22:00:00+08:00',
+    /* 3:30 PM Philippine time on 4 January 2027. This is the value the
+       countdown counts down to, so it has to agree with the "3:30 pm" written
+       in the Details section -- the two used to disagree by half an hour. */
+    startISO: '2027-01-04T15:30:00+08:00',
+    /* 9:30 PM, keeping the same six hours the 4:00-to-10:00 span used to give. */
+    endISO: '2027-01-04T21:30:00+08:00',
     venue: 'Hacienda Solange Indang',
     venueLine2: '@ EMV Flower Farm',
     mapsQuery: 'Hacienda Solange Indang EMV Flower Farm',
