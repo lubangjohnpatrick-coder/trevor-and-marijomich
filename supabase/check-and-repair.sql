@@ -193,9 +193,20 @@ grant select on public.admins to authenticated;
 -- --------------------------------------------------------------------------
 -- C. Remove the rows created while testing the connection
 --    (guests have no delete rights, which is why this has to run here)
+--
+--    Matched on the name AND the message, never the name alone, so a real guest
+--    who happens to share a display name can never be caught by this.
 -- --------------------------------------------------------------------------
-delete from public.wishes where name in ('Guest Probe', 'Probe2', 'ZZ Test Cleanup');
-delete from public.rsvps   where name in ('Probe', 'ZZ Test Cleanup');
+delete from public.wishes
+where (name = 'Guest Probe'  and message = 'Guest Probe')
+   or (name = 'Probe2'       and message = 'Probe2')
+   or (name = 'ZZ Test Cleanup')
+   or (name = '__p__'        and message = '__p__')
+   or (name = 'A guest'      and message = 'Congrats!');
+
+delete from public.rsvps
+where name in ('Probe', 'ZZ Test Cleanup', '__probe__', '__e2e__');
+
 delete from public.invitations where name = 'ZZ Test Cleanup';
 
 

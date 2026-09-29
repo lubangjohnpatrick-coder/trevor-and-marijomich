@@ -24,8 +24,15 @@
   <link rel="preload" href="assets/fonts/cover-script.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/fonts/sans.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="css/aos.css">
+  <!-- The ?v= below is the cache-buster. BUMP THE NUMBER whenever you edit
+       styles.css, css/aos.css, js/*.js or script.js and the change does not
+       show up. Without it the browser keeps serving the old copy from its own
+       cache and the page looks like nothing happened -- which is exactly how a
+       change to js/aos.js went unseen after the AOS replay default was fixed.
+       Fonts are deliberately left alone: a wrong ?v on a .woff is a wasted
+       download, and they never change once set. -->
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="css/aos.css?v=2">
 </head>
 <body class="welcome-open">
 
@@ -125,21 +132,21 @@
 and begin our forever together.
         </p>
 
-        <!-- One row, so the couple's names read as a single line rather than three
-             stacked ones. The wrapper is what allows that: .story__content is a
-             centred flex column, so without a row of its own these three items
-             always stack. -->
-        <div class="story__names">
-          <article class="person-card" data-aos="zoom-out-left" data-aos-delay="150">
-            <h3>Trevor George White</h3>
-          </article>
+        <!-- Three stacked lines: each name on a line of its own with the
+             ampersand alone between them. .story__content is already a centred
+             flex column, so these are direct children and stack on their own --
+             no wrapper is needed, and the size in .person-card h3 is set so that
+             "Marijomich Denniece Torres" fits a single line rather than wrapping
+             onto a second. -->
+        <article class="person-card" data-aos="zoom-out-left" data-aos-delay="150">
+          <h3>Trevor George White</h3>
+        </article>
 
-          <div class="story__amp" data-aos="zoom-in" data-aos-delay="300" aria-hidden="true">&amp;</div>
+        <div class="story__amp" data-aos="zoom-in" data-aos-delay="300" aria-hidden="true">&amp;</div>
 
-          <article class="person-card" data-aos="zoom-out-right" data-aos-delay="450">
-            <h3>Marijomich Denniece Torres</h3>
-          </article>
-        </div>
+        <article class="person-card" data-aos="zoom-out-right" data-aos-delay="450">
+          <h3>Marijomich Denniece Torres</h3>
+        </article>
       </div>
     </section>
 
@@ -350,7 +357,7 @@ and begin our forever together.
         <h2 id="rsvp-title" data-aos="zoom-out-down">Wishes &amp; RSVP</h2>
         <p class="rsvp__intro" data-aos="fade-up" data-aos-delay="150">
           For family and friends, please confirm attendance below by
-          <strong>November 04, 2026</strong> and give a greeting for the bride and groom.<br><br>
+          <strong>November 04, 2026</strong> and give a greeting for the bride and groom.
         </p>
 
         <!-- Shown only when the visitor opened a personal invitation link -->
@@ -422,6 +429,14 @@ and begin our forever together.
 
   <footer class="site-footer">
     <p data-aos="fade-up" data-aos-once="true">Trevor &amp; Marijomich &middot; 01 . 04 . 2027 &middot; Hacienda Solange Indang</p>
+    <!-- Build stamp. Not decoration: this is the fastest way to tell whether the
+         browser is actually running the current files. A stale cached script or
+         stylesheet looks exactly like a fix that did not work, and that is the
+         single biggest time sink when changing this site. Read the number at the
+         very bottom of the page. If it does not match the ?v= in the <head>,
+         the browser is serving something old -- force a reload, or bump the ?v.
+         Bump the two together. -->
+    <p class="site-footer__build" aria-hidden="true">build v2</p>
   </footer>
 
   <!-- Music: the button appears only once a track is set in js/config.js -->
@@ -442,9 +457,9 @@ and begin our forever together.
   </div>
 
   <!-- Order matters: config -> data layer -> animations -> page behaviour -->
-  <script src="js/config.js"></script>
-  <script src="js/store.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="script.js"></script>
+  <script src="js/config.js?v=2"></script>
+  <script src="js/store.js?v=2"></script>
+  <script src="js/aos.js?v=2"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

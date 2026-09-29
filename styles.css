@@ -897,7 +897,18 @@ textarea:focus-visible {
   margin: 0 0 6px;
   color: #3e4e2c;
   font-family: var(--script-font);
-  font-size: var(--fs-display);
+  /* Each name is meant to sit on ONE line of its own, stacked with the
+     ampersand alone between them. --fs-display floored at 40px, and
+     "Marijomich Denniece Torres" is 25 script characters -- about 420px at 40px,
+     against the 350px a 390px phone actually has. So it wrapped onto a second
+     line and the pair read as four lines rather than three.
+
+     This clamp is sized off the long name: at 7.5vw it measures to roughly
+     307px on a 390px phone (350px available) and 604px on a 768px tablet
+     (728px available), so the name holds one line across the whole range.
+     `nowrap` is deliberately not set -- if a very narrow screen ever cannot fit
+     it, wrapping is the better failure than a clipped name. */
+  font-size: clamp(24px, 7.5vw, 64px);
   font-weight: 400;
   line-height: var(--lh-display);
   letter-spacing: .01em;
@@ -914,46 +925,12 @@ textarea:focus-visible {
 }
 
 .story__amp {
+  margin: clamp(8px, 1.6vw, 16px) 0;
   color: #6f7f3c;
   font-family: var(--heading-font);
   font-size: var(--fs-title);
   font-style: italic;
   line-height: 1;
-}
-
-/* The couple's names, set as one line: "Trevor George White & Marijomich
-   Denniece Torres". This is the shrink-wrap treatment the entourage pairs use —
-   each side is a flex item at `0 1 auto`, so if the row is genuinely too wide
-   for the screen a name wraps inside its own half rather than the line
-   overflowing the section, and `flex-wrap` is the last-resort fallback.
-
-   The size has to come a long way down from --fs-display to fit three items
-   abreast: the two names and the ampersand are 44 script characters, which at
-   the old 40px needed roughly 790px — wider than any phone. This clamp lands
-   near 300px on a 375px phone and 950px on a 1440px desktop. */
-.story__names {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-  gap: clamp(10px, 2.4vw, 26px);
-  max-width: 100%;
-}
-
-.story__names .person-card {
-  flex: 0 1 auto;
-}
-
-.story__names .person-card h3 {
-  font-size: clamp(13px, 4.2vw, 52px);
-}
-
-/* The ampersand sits between the two halves now rather than on its own line, so
-   its stacked margins are gone; the row's `gap` spaces it instead. */
-.story__names .story__amp {
-  flex: 0 0 auto;
-  margin: 0;
-  font-size: clamp(13px, 4.2vw, 52px);
 }
 
 /* Event */
@@ -2012,6 +1989,18 @@ textarea:focus-visible {
 }
 
 /* Footer and music */
+/* The build stamp. Kept quiet -- small, low contrast, and it carries no AOS
+   attributes so it can never be one of the things that fails to appear. It is
+   the quickest way to confirm the browser is running the current files. */
+.site-footer__build {
+  margin: 4px 0 0;
+  color: rgb(62 78 44 / 45%);
+  font-family: var(--body-font);
+  font-size: 10px;
+  letter-spacing: .12em;
+  opacity: .7;
+}
+
 .site-footer {
   display: flex;
   min-height: 130px;
