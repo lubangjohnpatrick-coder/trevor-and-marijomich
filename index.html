@@ -4,8 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#2f3a26">
-  <meta name="description" content="Trevor George White and Marijomich Denniece Torres — Monday, 04 January 2027, 4:00 PM at Hacienda Solange Indang, EMV Flower Farm.">
-  <title>Trevor &amp; Marijomich | 04 . 01 . 2027</title>
+  <meta name="description" content="Trevor George White and Marijomich Denniece Torres - Monday, 04 January 2027, 3:30 PM at Hacienda Solange Indang, EMV Flower Farm.">
+  <title>Trevor &amp; Marijomich | 01 . 04 . 2027</title>
+
+  <!-- The T&amp;M wreath as the browser tab and home-screen icon. All of these
+       live in the document head, not the body: an image is not valid inside
+       <title>, which takes text only, so the mark is attached to the tab with
+       <link rel="icon"> instead. The .ico is the fallback for anything that
+       still asks for one; the sized PNGs are what current browsers actually
+       use, and the artwork is composited on the paper cream so it stays legible
+       against both a light and a dark tab. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <link rel="preload" href="assets/fonts/script.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/fonts/cover-script.woff" as="font" type="font/woff" crossorigin>
@@ -81,12 +94,13 @@
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="hero__content">
         <h1 id="hero-title" class="hero__names" data-aos="zoom-in" data-aos-delay="200" data-aos-easing="ease-out-back">Trevor <span>&amp;</span> Marijomich</h1>
-        <p class="hero__date" data-aos="zoom-out" data-aos-delay="400"><time datetime="2027-01-04">04 . 01 . 2027</time></p>
+        <p class="hero__date" data-aos="zoom-out" data-aos-delay="400"><time datetime="2027-01-04">01 . 04 . 2027</time></p>
 
-        <!-- The monogram closes the opening block: names, then the date, then
-             the T&M mark. It is a PNG on a transparent background, so it sits
-             straight on the photograph. No loading="lazy" here — this is above
-             the fold and is the first thing on the page. -->
+        <!-- The flat T&M mark, not the wreath. The wreath is the cover's logo and
+             stays there; this one is a quiet sign-off under the date. It is a
+             PNG on a transparent background, so it sits straight on the
+             photograph. No loading="lazy" — above the fold, first thing on the
+             page. -->
         <figure class="hero__monogram" data-aos="zoom-in" data-aos-delay="600" data-aos-easing="ease-out-back">
           <img src="assets/images/event-monogram.png" width="480" height="353" alt="The T and M monogram of Trevor and Marijomich" decoding="async">
         </figure>
@@ -157,19 +171,19 @@ and begin our forever together.
       <div class="location__shade" aria-hidden="true"></div>
 
       <div class="location__content">
-        <h2 id="location-title" data-aos="zoom-out-down">Location</h2>
+        <h2 id="location-title" data-aos="zoom-out-down" data-aos-once="true">Location</h2>
 
         <!-- The venue's own logo carries the name, so the typed venue line and
              the "EMV Flower Farm" line are both gone. The Google Maps links
              below keep the query so the button still resolves. -->
-        <img class="location__logo" src="assets/images/Venue-Logo.png" width="500" height="500" alt="Hacienda Solange Indang" loading="lazy" decoding="async" data-aos="zoom-out-up" data-aos-delay="150">
-
-        <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back">
+        <img class="location__logo" src="assets/images/Venue-Logo.png" width="500" height="500" alt="Hacienda Solange Indang" loading="lazy" decoding="async" data-aos="zoom-out-up" data-aos-delay="150" data-aos-once="true">
+        
+        <figure class="location__card" data-aos="zoom-in" data-aos-delay="300" data-aos-easing="ease-out-back" data-aos-once="true">
           <img src="assets/images/venue.jpg" width="1417" height="1110" alt="The wooden halls at Hacienda Solange Indang reflected in the lake" loading="lazy" decoding="async">
         </figure>
 
-        <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400">Maps</p>
-        <a class="location__map" data-aos="zoom-out-up" data-aos-delay="500" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener" aria-label="Open the wedding location in Google Maps">
+        <p class="location__maps-label" data-aos="fade-up" data-aos-delay="400" data-aos-once="true">Maps</p>
+        <a class="location__map" data-aos="zoom-out-up" data-aos-delay="500" data-aos-once="true" href="https://www.google.com/maps/search/?api=1&amp;query=Hacienda+Solange+Indang+EMV+Flower+Farm" target="_blank" rel="noopener" aria-label="Open the wedding location in Google Maps">
           <picture><source srcset="assets/images/location-map.webp" type="image/webp"><img src="assets/images/location-map.png" alt="Map showing Hacienda Solange Indang at EMV Flower Farm" loading="lazy" decoding="async"></picture>
         </a>
 
@@ -315,7 +329,7 @@ and begin our forever together.
         <h2 id="rsvp-title" data-aos="zoom-out-down">Wishes &amp; RSVP</h2>
         <p class="rsvp__intro" data-aos="fade-up" data-aos-delay="150">
           For family and friends, please confirm attendance below by
-          <strong>December 04, 2026</strong> and give a greeting for the bride and groom.<br><br>
+          <strong>November 04, 2026</strong> and give a greeting for the bride and groom.<br><br>
           Note: Strictly adult event only.
         </p>
 
@@ -387,7 +401,7 @@ and begin our forever together.
   </main>
 
   <footer class="site-footer">
-    <p data-aos="fade-up" data-aos-once="true">Trevor &amp; Marijomich &middot; 04 . 01 . 2027 &middot; Hacienda Solange Indang</p>
+    <p data-aos="fade-up" data-aos-once="true">Trevor &amp; Marijomich &middot; 01 . 04 . 2027 &middot; Hacienda Solange Indang</p>
   </footer>
 
   <!-- Music: the button appears only once a track is set in js/config.js -->

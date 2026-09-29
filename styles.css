@@ -494,11 +494,13 @@ textarea:focus-visible {
 }
 
 /* ---- the guest greeting ----------------------------------------------------
-   The name is set in the same serif as the couple's own names, so a personal
+   The name is set in the same script as the couple's own names, so a personal
    link reads as part of the invitation rather than a label stuck on it.
    "Dear" shares that face, which keeps both words on a natural shared
    baseline. The comma after the name is a bare text node, so it keeps the full
-   h1 size instead of shrinking with the lead-in. */
+   h1 size instead of shrinking with the lead-in. The size is its own clamp
+   rather than --fs-display: the greeting is the first thing a guest reads, so
+   it is set larger than the couple's names would be at the same width. */
 .welcome__greeting-lead {
   margin-right: .14em;
   color: #6f7f3c;
@@ -511,7 +513,7 @@ textarea:focus-visible {
   margin: 0 0 clamp(8px, 1.8vh, 18px);
   color: #2f3a26;
   font-family: var(--script-font);
-  font-size: var(--fs-display);
+  font-size: clamp(52px, 13.5vw, 92px);
   font-weight: 400;
   /* Looser than the 1.15 the other script headings use: the swashes and long
      descenders need the room, and a long name can wrap onto a second line. */
@@ -533,7 +535,11 @@ textarea:focus-visible {
   margin: 0 auto clamp(14px, 3vh, 30px);
   color: #4a5a33;
   font-family: var(--body-font);
-  font-size: var(--fs-body);
+  /* A step above --fs-body on purpose. This is the cover, set as a poster
+     rather than as running text, and the personal note to the guest is the
+     thing they are meant to read before anything else. --fs-body floors at
+     16px, which is right for a paragraph inside the page but reads thin here. */
+  font-size: clamp(16px, 4.4vw, 19px);
   line-height: var(--lh-body);
 }
 
@@ -544,7 +550,11 @@ textarea:focus-visible {
 
 .welcome__seats {
   color: #5c6a4e;
-  font-size: .88em;
+  /* Same size as the rest of the note, not smaller. This used to be .88em, which
+     set the one hard fact on the cover — how many seats are held for you — below
+     the softer lines around it. Hierarchy here comes from the colour, which is
+     what the `.welcome__seats b` rule below relies on anyway. */
+  font-size: 1em;
   line-height: 1.5;
 }
 
@@ -594,11 +604,22 @@ textarea:focus-visible {
 .hero__background {
   z-index: -3;
   background: url("assets/images/hero.webp") center center / cover no-repeat;
+  /* Lifts the photograph out of the gloom. The source is shot flat and the
+     shade below knocks another 25%/20% off the top and bottom, which together
+     read as underexposed on a phone in daylight. brightness() is applied to
+     the painted background rather than the hero itself, so it cannot touch
+     the text or the monogram sitting above it. saturate() walks a little
+     warmth back in, because brightening alone tends to grey a green garden
+     scene. */
+  filter: brightness(1.2) saturate(1.08);
 }
 
 .hero__shade {
   z-index: -2;
-  background: linear-gradient(180deg, rgb(0 0 0 / 25%), transparent 30%, transparent 70%, rgb(0 0 0 / 20%));
+  /* Trimmed from 25%/20% to 14%/12% to match the brighter plate. The gradient
+     still darkens the top and bottom bands where the names and the swipe
+     prompt sit, and still leaves the middle third of the photograph clean. */
+  background: linear-gradient(180deg, rgb(0 0 0 / 14%), transparent 30%, transparent 70%, rgb(0 0 0 / 12%));
 }
 
 .hero__content {
@@ -611,21 +632,33 @@ textarea:focus-visible {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  /* Only a fallback. The names set their own shadow a few rules down, so this
+     exists purely for anything added to the stack later. */
   text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
 }
 
-.hero__eyebrow,
+/* Names and date share one ink and one halo. They must be declared together:
+   .hero sets `color: #fff`, so a selector that sets neither colour nor an
+   inherited one leaves the date rendering white on a photograph, which is what
+   happened when the two were split apart. Keep the date on this list. */
+.hero__names,
+.hero__date {
+  color: var(--hero-ink);
+  /* Dark ink, so it is separated from the photograph by a pale glow rather than
+     a dark one. Kept at 72%/52% rather than the 92%/78% this used to carry: the
+     plate behind is now 20% brighter, which gives the dark lettering more
+     contrast on its own, and the old halo strength read as a white fringe
+     bleeding off every stroke. */
+  text-shadow: 0 1px 10px rgb(255 255 255 / 72%), 0 0 22px rgb(255 255 255 / 52%);
+}
+
 .hero__date {
   margin: 0;
   font-size: var(--fs-date);
   line-height: var(--lh-title);
-}
-
-.hero__eyebrow,
-.hero__names,
-.hero__date {
-  color: var(--hero-ink);
-  text-shadow: 0 1px 10px rgb(255 255 255 / 92%), 0 0 26px rgb(255 255 255 / 78%);
+  font-family: var(--body-font);
+  font-weight: 500;
+  letter-spacing: .1em;
 }
 
 /* The names are the largest element on the page, in Trevenir Cover. `nowrap`
@@ -655,12 +688,6 @@ textarea:focus-visible {
   line-height: 1;
 }
 
-.hero__date {
-  font-family: var(--body-font);
-  font-weight: 500;
-  letter-spacing: .1em;
-}
-
 /* The T&M monogram, closing the opening block under the names and the date.
    Centred on desktop, the way the rest of the hero stack is; the phone
    breakpoint moves it to the right-hand edge instead. */
@@ -684,18 +711,26 @@ textarea:focus-visible {
 .hero__scroll {
   position: absolute;
   bottom: 24px;
-  left: 50%;
+  left: 0;
+  right: 0;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #fff;
-  text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
+  text-shadow: 0 2px 12px rgb(0 0 0 / 50%), 0 1px 3px rgb(0 0 0 / 60%);
   font-family: var(--button-font);
   font-size: 15px;
   line-height: 1;
   text-decoration: none;
-  transform: translateX(-50%);
+  /* `width: max-content` keeps the link shrink-wrapped instead of stretching
+     the full width of the hero, so the tap target stays the size of the words.
+     With that, auto side margins centre it and no transform is needed -- which
+     also settles the three-way fight this element used to have over
+     `transform`: the float-cue keyframes, the translateX(-50%) below, and the
+     data-aos="fade-up" on the tag, each of which silently overwrote the last. */
+  width: max-content;
+  margin-inline: auto;
   animation: float-cue 1.8s ease-in-out infinite;
 }
 
@@ -706,9 +741,12 @@ textarea:focus-visible {
   line-height: .8;
 }
 
+/* Vertical only. The -50% X that used to be in here was the element's
+   centring; it now comes from `margin-inline: auto`, so the float no longer has
+   to carry it, and the animation cannot knock the cue off centre. */
 @keyframes float-cue {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 9px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(9px); }
 }
 
 /* Shared ornamental framed sections */
@@ -1447,51 +1485,55 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
-.sponsor-columns {
-  display: grid;
-  width: min(100%, 850px);
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin: 0 auto 10px;
-}
-
+/* Both sponsor columns are centred, rather than the left one right-aligned and
+   the right one left-aligned. The ladder only ever applied to the names
+   underneath, and the two halves then read as unbalanced: "Mr. Peter White" hard
+   against the right edge of its track while "Mrs. Hilda Guillermo" started at
+   the left of hers. */
+.sponsor-columns h3,
 .sponsor-columns p {
-  text-align: right;
+  text-align: center;
 }
 
-.sponsor-columns p:last-child {
-  text-align: left;
-}
+/* Every paired role list on the page -- the Principal Sponsors and the three
+   entourage pairs -- is flex, not a two-track grid. With `1fr 1fr` in a fixed
+   850px box the sponsor halves were forced out to the outer edges, a long way
+   apart, while the groomsmen -- sitting in a shrink-wrapped flex row -- sat
+   close together. The two sections looked like they belonged to different
+   pages. Flex lets each block shrink-wrap its own content and lets
+   `justify-content: center` hold the pair together as one unit. `flex-wrap`
+   keeps it honest on a very narrow phone, where the two blocks stack rather
+   than overflow.
 
-/* The paired lists are flex rather than two half-width grid tracks. With
-   `1fr 1fr` in a fixed 850px box, the short lists — Best Man / Maid of Honor
-   most of all — were pushed out to the outer edges and read as two unrelated
-   columns. Flex lets each block shrink-wrap its own content while the pair
-   stays centred as a unit, so the names meet toward the middle the way the
-   sponsor list does. `flex-wrap` keeps it honest on a very narrow phone,
-   where the two blocks stack instead of overflowing. */
-.role-columns {
+   One shared rule for all four, so they cannot drift apart again. */
+.role-columns,
+.sponsor-columns {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* 24px matches .sponsor-columns, so the paired lists sit as close together as
-     the Principal Sponsors do. The two blocks shrink-wrap their own content, so
-     this gap is the whole of the space between the left and right names. */
+  /* This gap is the whole of the space between the left and right names, since
+     both blocks shrink-wrap their own content. */
   gap: clamp(14px, 2.2vw, 24px);
   max-width: 100%;
   margin: 0 auto 10px;
 }
 
+/* The two markups differ, so the flex-item rules differ too: the entourage pairs
+   wrap each half in a .role-block, the sponsors are bare <p> columns. Both need
+   `flex: 0 1 auto` so a column may shrink rather than overflow, and both need
+   the inherited `margin: 0 auto` undone -- in flexbox an `auto` margin on a flex
+   item absorbs the free space in preference to `justify-content`, which is what
+   was really shoving Best Man and Maid of Honor to the outer edges on a wide
+   desktop. It looked fine on a phone, where there is almost no free space to
+   absorb, and badly wrong where there are ~600px of it. */
 .role-columns .role-block {
   flex: 0 1 auto;
-  /* The `margin: 0 auto` on .role-block has to be undone here. These are flex
-     items now, and in flexbox an `auto` margin on a flex item absorbs the free
-     space in preference to `justify-content` — so those two auto margins were
-     swallowing the spare width and shoving Best Man and Maid of Honor out to
-     the outer edges of the column. It looked fine on a phone, where there is
-     almost no free space to absorb, and badly wrong on a desktop, where there
-     are ~600px of it. This is what was really pushing the two columns apart. */
   margin: 0 0 14px;
+}
+
+.sponsor-columns > p {
+  flex: 0 1 auto;
+  margin: 0;
 }
 
 .role-columns .role-block:first-child {
@@ -2378,8 +2420,19 @@ textarea:focus-visible {
 
    Placed before the width breakpoints so those still win on a small screen. */
 @media (max-height: 820px) {
-  .welcome h1 { font-size: clamp(26px, 4.6vw, 46px); }
-  .welcome__message { font-size: clamp(13px, 1.7vw, 17px); line-height: 1.5; margin-bottom: 16px; }
+  /* Same dead-fluid-term trap as the note below. This was clamp(28px, 5.2vw,
+     48px): 5.2vw is about 19px on a 375px phone, so the floor always won and
+     every short-screen iPhone -- the 375x812 minis and X, and the 375x667 SE --
+     got 28px for the guest's name, against 47px on a 390x844. A third of the
+     size for a 32px difference in viewport height. The floor now carries the
+     greeting and 10vw is a real viewport term on top of it. */
+  .welcome h1 { font-size: clamp(40px, 10vw, 56px); }
+  /* The floor was 13px, and the fluid term only 1.7vw -- about 6px on a 375px
+     phone, so it never rose above the floor and every short-screen iPhone got
+     13px for the guest's personal note. The 1.7vw was also far too small to be
+     a real viewport term; 4vw is, and it lands the SE and the 375x812 minis at
+     15px instead. */
+  .welcome__message { font-size: clamp(15px, 4vw, 17px); line-height: 1.5; margin-bottom: 14px; }
   .welcome__envelope { width: min(84vw, 560px); }
 }
 
@@ -2441,7 +2494,10 @@ textarea:focus-visible {
   .location__card { padding: 5px; border-radius: 14px; }
   .location__card img { border-radius: 10px; }
   .location__maps-label { margin-bottom: 10px; }
-  .location__map { padding: 4px; }
+  /* Capped below the column on a phone: at 420px the map was spanning the whole
+     360px column and reading as a second hero image rather than a wayfinding
+     aid. 240px still leaves the pin easy to find. */
+  .location__map { width: min(100%, 240px); padding: 4px; }
 
   .details { min-height: 0; }
   .details__texture,
@@ -2495,30 +2551,43 @@ textarea:focus-visible {
 
   .entourage__content { padding: 120px 15px; }
   .entourage h2 { margin-bottom: 16px; }
-  /* .role-columns is not listed here on purpose: its gap is now a clamp() that
-     already floors at 16px, and a hard 10px would crowd the two blocks into
-     each other on a phone. Only the sponsor grid, which is still 1fr 1fr, is
-     tightened here. */
-  .sponsor-columns { gap: 10px; }
+  /* Only the sponsor grid, which is still a 1fr 1fr two-column grid, needs a
+     hard gap here. .role-columns is handled further down, where the gap, the
+     alignment and the name size all move together to keep each pair on one
+     row. */
+  /* Stated here as well as in the base rule so the phone cannot reintroduce a
+     left|right split if the base rule is ever edited. */
+  .sponsor-columns { gap: 10px; text-align: center; }
   .role-block { margin-bottom: 7px; }
 
-  /* The paired lists cannot all sit side by side on a phone. Measured at 390px
-     with 16px text and a 14px gap: Best Man / Maid of Honor needs ~406px and
-     Groomsmen / Bridesmaids ~358px against 360px available, so one wraps and
-     the others do not. That mixed result is what read as misaligned — when a
-     pair wraps, the right|left alignment still applies, but the two halves are
-     then on separate lines. Stacking all three and centring them makes the
-     behaviour uniform, and on a narrow screen it is the easier layout to read
-     anyway. */
+  /* The paired lists stay side by side on a phone. Two things keep them there.
+     The names step down to 14px and the gap to 8px, and -- the part that
+     actually guarantees it -- .role-block is `flex: 0 1 auto`, so a column is
+     shrinkable. If a pair is still too wide, flexbox narrows the columns and a
+     long name wraps to a second line inside its own half rather than dropping
+     the whole pair onto separate rows, which is what flex-wrap would do. The
+     widest pair (Best Man / Maid of Honor) needs ~344px at 14px against the
+     345px a 375px phone offers, so even there the columns just shave down.
+
+     align-items is flex-start, not center, so the two role labels stay on the
+     same row: the pairs are equal length in names (1/1, 6/6, 5/5) but a name
+     that wraps makes one column taller, and centering would drop the shorter
+     column's <h3> below its partner's. */
   .role-columns {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    align-items: flex-start;
+    gap: clamp(8px, 2vw, 18px);
   }
 
+  /* Both halves centre. The columns shrink-wrap and sit adjacent, so this only
+     really shows when a name wraps: the two halves then read as a matched pair
+     instead of a staggered right|left ladder. */
   .role-columns .role-block:first-child,
   .role-columns .role-block:last-child {
     text-align: center;
+  }
+
+  .role-columns p {
+    font-size: clamp(14px, 3.6vw, 16px);
   }
 
   .wishes { min-height: 650px; }
