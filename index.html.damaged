@@ -106,7 +106,7 @@
         <!-- The flat T&M mark, not the wreath. The wreath is the cover's logo and
              stays there; this one is a quiet sign-off under the date. It is a
              PNG on a transparent background, so it sits straight on the
-             photograph. No loading="lazy" — above the fold, first thing on the
+             photograph. No loading="lazy" ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â above the fold, first thing on the
              page. -->
         <figure class="hero__monogram" data-aos="zoom-in" data-aos-delay="600" data-aos-easing="ease-out-back">
           <img src="assets/images/event-monogram.png" width="480" height="353" alt="The T and M monogram of Trevor and Marijomich" decoding="async">
@@ -329,49 +329,21 @@ and begin our forever together.
       </div>
     </section>
 
-    <!-- ============================ CLOSING ============================ -->
-    <!-- The message from the groom and bride: their note, then the sign-off
-         with the names. It sits between the Entourage and the RSVP.
-
-         The section's accessible name is a visually hidden heading, so it
-         reads as "Message from the Groom and Bride" instead of repeating the
-         names that are already spelled out underneath. It uses aria-labelledby
-         rather than an aria-label on purpose: if both are present the
-         aria-label wins and the hidden heading is never announced. The heading
-         is a direct child of the section, not of .closing__content, so the
-         .closing__content h2 rule (which sets the 84px display face) cannot
-         reach it.
-
-         The VISIBLE h2 still uses `zoom-in-up`, which starts 100px below its
-         own position: that is safe only because .closing__content keeps 200px
-         of bottom padding, so the travel stays inside the section instead of
-         being clipped. Do not trim that padding without swapping the effect
-         for a pure scale first. -->
-    <section class="closing" aria-labelledby="closing-title">
-      <h2 class="sr-only" id="closing-title">Message from the Groom and Bride</h2>
-      <div class="closing__background" aria-hidden="true"></div>
-      <div class="closing__shade" aria-hidden="true"></div>
-      <div class="closing__content">
-        <p data-aos="zoom-out-up">
-          Two hearts, two cultures, two journey, coming together as one.
-          <br><br>As we begin this beautiful new chapter, we are grateful for the love that brought us together and for the families who have shaped who we are.
-          <br><br>From Australia to the Philippines, two different backgrounds become one shared journey, united by love, family, and the promise of forever.
-          <br><br>We would be honored to have you with us as we celebrate this special moment and witness the beginning of our life together.
-          <br><br>Your presence will make our celebration even more meaningful.
-
-        </p>
-        <span data-aos="fade-up" data-aos-delay="200">With Love,</span>
-        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back">Trevor &amp; Marijomich</h2>
+    <!-- ============================ WISHES ============================ -->
+    <!-- Empty on purpose. Messages are read live from Supabase (or from the
+         browser while Supabase is not connected yet). -->
+    <section class="wishes" id="wishes" aria-labelledby="wishes-title">
+      <div class="wishes__background" aria-hidden="true"></div>
+      <div class="wishes__frame" aria-hidden="true"></div>
+      <div class="wishes__content">
+        <h2 id="wishes-title" class="sr-only">Wishes from our guests</h2>
+        <div class="wishes__scroll" id="wishes-list" aria-label="Messages from family and friends" aria-live="polite" data-aos="zoom-out-down">
+          <p class="wishes__status" id="wishes-status">Loading messagesÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</p>
+        </div>
       </div>
     </section>
 
     <!-- ============================ RSVP ============================ -->
-    <!-- The reply form. Not the last section -- the message wall follows it --
-         but it sits well below the fold, so keep the bottom padding on
-         .rsvp__content generous: the 200px it carries is what stops the
-         browser restoring a scroll position that lands the submit button off
-         screen. -->
-
     <section class="rsvp framed-section" id="rsvp" aria-labelledby="rsvp-title">
       <div class="section-ornament section-ornament--top"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="section-ornament section-ornament--bottom"><picture><source srcset="assets/images/cover-horizontal-flowers.webp" type="image/webp"><img src="assets/images/cover-horizontal-flowers.png" alt="" loading="lazy" decoding="async"></picture></div>
@@ -424,7 +396,7 @@ and begin our forever together.
           <input id="guest-diet" name="dietary" type="text" placeholder="e.g. vegetarian, no shellfish">
 
           <label for="guest-wish">Wishes</label>
-          <textarea id="guest-wish" name="wish" rows="5" placeholder="Write a message for Trevor and Marijomich…"></textarea>
+          <textarea id="guest-wish" name="wish" rows="5" placeholder="Write a message for Trevor and MarijomichÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"></textarea>
 
           <button class="button button--submit" type="submit" disabled>Submit</button>
           <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
@@ -432,25 +404,27 @@ and begin our forever together.
       </div>
     </section>
 
-    <!-- ============================ WISHES ============================ -->
-    <!-- The message wall is the last block on the page: groom and bride ->
-         RSVP -> messages. It is the only section that grows as guests post, so
-         ending on it means the page never really finishes -- a new wish lands
-         below where the reader thought the end was. That is deliberate, and it
-         is also why this is not the sign-off. -->
-    <!-- Empty on purpose. Messages are read live from Supabase (or from the
-         browser while Supabase is not connected yet). -->
-    <section class="wishes" id="wishes" aria-labelledby="wishes-title">
-      <div class="wishes__background" aria-hidden="true"></div>
-      <div class="wishes__frame" aria-hidden="true"></div>
-      <div class="wishes__content">
-        <h2 id="wishes-title" class="sr-only">Wishlist Messages</h2>
-        <div class="wishes__scroll" id="wishes-list" aria-label="Messages from family and friends" aria-live="polite" data-aos="zoom-out-down">
-          <p class="wishes__status" id="wishes-status">Loading messages…</p>
-        </div>
+    <!-- ============================ CLOSING ============================ -->
+    <section class="closing" aria-label="Trevor and Marijomich, together forever">
+      <div class="closing__background" aria-hidden="true"></div>
+      <div class="closing__shade" aria-hidden="true"></div>
+      <!-- The closing block is the last thing on the page, so its animations
+           are marked once: the AOS default (once=false) removes the animation
+           class when an element scrolls back out of view, which can leave the
+           names and the sign-off blank after they have already appeared. -->
+      <div class="closing__content">
+        <p data-aos="zoom-out-up">
+          Two hearts, two cultures, two journey, coming together as one.
+          <br><br>As we begin this beautiful new chapter, we are grateful for the love that brought us together and for the families who have shaped who we are.
+          <br><br>From Australia to the Philippines, two different backgrounds become one shared journey, united by love, family, and the promise of forever.
+          <br><br>We would be honored to have you with us as we celebrate this special moment and witness the beginning of our life together.
+          <br><br>Your presence will make our celebration even more meaningful.
+ 
+        </p>
+        <span data-aos="fade-up" data-aos-delay="200">With Love,</span>
+        <h2 data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-out-back">Trevor &amp; Marijomich</h2>
       </div>
     </section>
-
   </main>
 
   <footer class="site-footer">
@@ -470,13 +444,7 @@ and begin our forever together.
     <img src="assets/images/play-button.svg" alt="">
     <span class="music-toggle__pause" aria-hidden="true">&#8545;</span>
   </button>
-  <!-- preload="metadata", not "auto". The track is 5.8 MB, and "auto" makes
-       every visitor download all of it just to look at the page -- on mobile
-       data that is the difference between the invitation appearing instantly
-       and appearing after a long wait, before they have even decided to press
-       play. "metadata" fetches only enough to know the duration, then streams
-       the moment play() is called. -->
-  <audio id="background-music" loop preload="metadata"></audio>
+  <audio id="background-music" loop preload="auto"></audio>
   <iframe id="music-frame" class="music-frame" title="Background music" aria-hidden="true" allow="autoplay" tabindex="-1"></iframe>
 
   <!-- ============================ LIGHTBOX ============================ -->
