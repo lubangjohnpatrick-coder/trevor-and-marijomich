@@ -254,7 +254,44 @@ function renderRsvps(rsvps) {
     const dateCell = document.createElement('td');
     dateCell.textContent = formatDate(reply.createdAt);
 
-    row.append(guestCell, attendanceCell, paxCell, emailCell, dietCell, messageCell, dateCell);
+    /* The token is what tells the two kinds of duplicate apart. A reply from a
+       personal link carries its guest's token; a row with no token came from
+       somebody who opened the site without a link, which is exactly what a test
+       entry looks like. It is shown so that judgement does not need guessing. */
+    const linkCell = document.createElement('td');
+    if (reply.token) {
+      linkCell.appendChild(createActionButton('Open', 'admin-small-button', () => {
+        window.open(STORE.inviteUrl(reply.token), '_blank', 'noopener');
+      }));
+      linkCell.append(' ');
+      const token = document.createElement('code');
+      token.className = 'admin-token';
+      token.textContent = reply.token;
+      linkCell.appendChild(token);
+    } else {
+      linkCell.className = 'admin-cell--muted';
+      linkCell.textContent = 'no link';
+    }
+
+    const actionCell = document.createElement('td');
+    actionCell.appendChild(createActionButton('Delete', 'admin-small-button admin-small-button--danger', async () => {
+      const detail = [
+        reply.name,
+        reply.attendance === 'Yes' ? reply.pax + ' pax' : 'not attending',
+        formatDate(reply.createdAt)
+      ].join(' · ');
+      if (!window.confirm('Delete this reply?\n\n' + detail + '\n\nThis cannot be undone.')) return;
+
+      try {
+        await STORE.deleteRsvp(reply.id);
+        await loadRsvps();
+        showMessage(createMessage, 'Reply deleted.');
+      } catch (error) {
+        showMessage(createMessage, error.message, true);
+      }
+    }));
+
+    row.append(guestCell, attendanceCell, paxCell, emailCell, dietCell, messageCell, dateCell, linkCell, actionCell);
     rsvpsBody.appendChild(row);
   });
 }

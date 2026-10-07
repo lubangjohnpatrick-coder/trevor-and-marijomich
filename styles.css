@@ -150,6 +150,23 @@ button {
   cursor: pointer;
 }
 
+/* The `hidden` attribute must win, always.
+
+   An element with a class that sets `display` (.button is inline-flex,
+   .rsvp__guest is flex, .lightbox is grid) keeps that display even while it is
+   hidden, because the UA rule `[hidden] { display: none }` has the lowest
+   priority there is. This bit six elements on this site already -- the welcome
+   note, the RSVP guest banner, the setup note, the music button, the lightbox
+   and the admin panels -- and each one grew its own `.thing[hidden] { display:
+   none }` to patch the symptom.
+
+   One rule here retires the whole class of bug for good, including any
+   .button that is toggled with the hidden attribute. The per-element rules
+   already in this file can stay; they are now redundant but harmless. */
+[hidden] {
+  display: none !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2981,6 +2998,23 @@ textarea:focus-visible {
   background: #fff;
   font-family: Arial, sans-serif;
   font-size: 12px;
+}
+
+/* The invitation token in the replies table. It is how a real reply is told
+   apart from a leftover test: a guest who opened a personal link has a token,
+   and a row without one came from somebody who opened the site directly. It is
+   shown small and monospaced because it is evidence, not something to read. */
+.admin-token {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  color: #6b6b6b;
+  word-break: break-all;
+}
+
+/* "no link" -- the same distinction, stated plainly instead of in code. */
+.admin-cell--muted {
+  color: #8a6b62;
+  font-style: italic;
 }
 
 .admin-small-button--danger {

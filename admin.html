@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f3a26">
   <meta name="robots" content="noindex, nofollow">
   <title>Invitation Admin | Trevor &amp; Marijomich</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body class="admin-page">
   <main class="admin-shell">
@@ -39,6 +39,7 @@
       <div class="admin-card__heading admin-card__heading--row">
         <div>
           <h2>Dashboard</h2>
+          <p id="backend-note">Connected to Supabase.</p>
         </div>
         <button class="admin-text-button" id="logout-button" type="button">Sign out</button>
       </div>
@@ -111,6 +112,24 @@
           <button class="admin-text-button" id="export-rsvps" type="button">Download CSV</button>
         </div>
 
+        <!-- How to clean up a mistake. Both cases below are handled by the
+             Delete button on each row; nothing here is automatic, because
+             deciding whether a row is a real guest or a leftover test is not
+             something the site should guess at.
+               • Doubled confirmation -- the guest pressed Submit twice and is
+                 counted twice. Open the pair, keep the one you want, delete
+                 the other. Only that one row goes.
+               • Not a guest / a test entry -- a row with "no link" in the
+                 Invitation column came from somebody who opened the site
+                 without a personal invitation, so it has no guest behind it.
+                 Those are usually a test, and are safe to delete. -->
+        <p class="admin-hint">
+          Delete removes one row and only that row, so a doubled confirmation
+          is fixed by deleting whichever copy you do not want. Rows marked
+          <strong>no link</strong> came from somebody who opened the site
+          without a personal invitation &mdash; a leftover test, usually.
+        </p>
+
         <ul class="admin-stats" id="rsvp-stats"></ul>
 
         <div class="admin-table-wrap">
@@ -124,6 +143,8 @@
                 <th>Dietary</th>
                 <th>Message</th>
                 <th>Replied</th>
+                <th>Invitation</th>
+                <th><span class="sr-only">Actions</span></th>
               </tr>
             </thead>
             <tbody id="rsvps-body"></tbody>
@@ -148,8 +169,11 @@
     </section>
   </main>
 
-  <script src="js/config.js"></script>
-  <script src="js/store.js"></script>
-  <script src="admin.js"></script>
+  <!-- Same ?v= as index.html, bumped in step with it. Without one the admin
+       page keeps serving a stale store.js from its own cache, which is how an
+       edit lands in the repository and never appears in the browser. -->
+  <script src="js/config.js?v=4"></script>
+  <script src="js/store.js?v=4"></script>
+  <script src="admin.js?v=4"></script>
 </body>
 </html>
