@@ -446,6 +446,34 @@ function makeToken() {
       return saved;
     },
 
+    /* Removes one reply, by row id. This is the admin's cleanup tool for two
+       real situations:
+
+         • a guest who pressed Submit twice and is counted twice
+         • a test entry that was never a real guest at all
+
+       id-scoped, not token-scoped, on purpose: an id identifies exactly one
+       row, so a mistaken delete removes the duplicate without touching the
+       reply you meant to keep. Token-scoped deleting would remove BOTH rows at
+       once, which is the wrong granularity when you only want to drop one of
+       the pair.
+
+       Guests cannot reach this. The anon role has no delete grant and no
+       delete policy on rsvps (see supabase/schema.sql); only a signed-in
+       admin does, which is why the button lives on admin.html and not on the
+       invitation. */
+    async deleteRsvp(id) {
+      if (!id) throw new Error('That reply has no id, so it cannot be removed.');
+
+      if (store.mode === 'supabase') {
+        await loadSupabase();
+        unwrap(await client.from('rsvps').delete().eq('id', id));
+        return;
+      }
+
+      writeLocal(LS.rsvps, readLocal(LS.rsvps).filter((item) => item.id !== id));
+    },
+
     /* ---------------- admin authentication ---------------- */
 
     async currentUser() {
